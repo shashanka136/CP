@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+int fin(int i){
+	if(p[i] != i){
+		p[i] = fin(p[i]);
+	}
+	return p[i];
+}
+void un(int i, int j){
+	i = fin(i), j = fin(j);
+	if(i == j) return;
+	p[i] = j;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_dsu--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

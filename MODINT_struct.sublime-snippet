@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+const int Mod = 1e9 + 7;
+template<long long mod>
+struct Int {
+	long long n;
+	Int(){}
+	Int(long long n): n(n % mod) {}
+	Int operator+(const Int& oth) {return n + oth.n;}
+	Int operator-(const Int& oth) {return n - oth.n;}
+	Int operator*(const Int& oth) {return n * oth.n;}
+	long long get() { return n < 0 ? n + mod : n;}
+};
+typedef Int<Mod> modi;
+
+modi powm(modi a, int b = -1) {
+	if (a.get() == 0) return 0;
+	modi ans;
+	b = b % (Mod - 1);
+	if(b < 0) b += Mod-1;
+	for (ans = 1; b; b >>= 1, a = a * a)
+		if (b & 1) ans = ans * a;
+	return ans;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_modi</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

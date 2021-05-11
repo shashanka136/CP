@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+/*-----------BIT----------*/
+void ins(ll i, ll x){
+	while(i<=n){
+		bit[i] += x;
+		i += (i&-i);
+	}
+}
+ll sum(ll i){
+	ll ans = 0;
+	while(i > 0){
+		ans += bit[i];
+		i = (i&i-1);
+	}
+	return ans;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_bit--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

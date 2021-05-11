@@ -1,0 +1,73 @@
+<snippet>
+	<content><![CDATA[
+struct basis {
+	vector<int> v;
+	int d;
+	int sz;
+	basis() {}
+	basis(int _d) {
+		d = _d;
+		v.assign(d, 0);
+		sz = 0;
+	}
+
+	basis operator=(const basis & oth) {
+		vector<int> z(oth.v);
+		v.swap(z); d = oth.d;
+		sz = oth.sz;
+		return *this;
+	}
+
+	void init(int _d) {
+		d = _d;
+		v.assign(d, 0);
+		sz = 0;
+	}
+
+	void insvec(int mask) {
+		for (int i = d - 1; i >= 0; i--) {
+			if ((mask & 1 << i) == 0) continue; //mask is not set at i
+
+			if (!v[i]) { //there is not any vector already at i
+				v[i] = mask;
+				++ sz;
+				return;
+			}
+			mask ^= v[i];
+		}
+	}
+
+	bool present(int x) { //true if x in present in vector space
+		for (int i = d - 1; i >= 0; i--) {//represented by current basis
+			if ((x & 1 << i) == 0) continue;
+
+			if (!v[i]) { //there is not any vector already at i
+				return false;
+			}
+			x ^= v[i];
+		}
+		return true;
+	}
+
+	int query(int k) { //return kth highest
+		int mask = 0;
+		int tot = 1 << sz;
+		for (int i = d - 1; i >= 0; i--)
+			if (v[i]) {
+				int hal = tot / 2;
+				if ((k <= hal && (mask & 1 << i) == 0) ||
+				        (k > hal && (mask & 1 << i) > 0)) mask ^= v[i];
+
+				if (k > hal) k -= hal;
+				tot >>= 1;
+			}
+
+		return mask;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_basis--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

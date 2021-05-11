@@ -1,0 +1,46 @@
+<snippet>
+	<content><![CDATA[
+
+void dfs(int i, int pr){
+	for(auto &x : adj[i]){
+		if(x == pr) continue;
+		dep[x] = dep[i]+1;
+		p[x][0] = i;
+		f(j,1,19,1) p[x][j] = p[p[x][j-1]][j-1];
+		dfs(x,i);
+	}
+}
+void swap(int &i, int &j){
+	if(dep[i]  >dep[j]) return;
+	int tmp = j;
+	j = i;
+	i = tmp;
+}
+
+void uplift(int &i, int diff){
+	f(bit,0,19,1){
+		if(diff>>bit&1){
+			i = p[i][bit];
+		}
+	}
+}
+
+int lca(int i, int j){
+	swap(i,j);
+	int diff = dep[i] - dep[j];
+	uplift(i,diff);
+	if(i == j) return i;
+	f(bit,18,-1,-1){
+		if(p[i][bit] != p[j][bit]){
+			i = p[i][bit];
+			j = p[j][bit];
+		}
+	}
+	return p[i][0];
+}//declare adj,dep,p
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_lca--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

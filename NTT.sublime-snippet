@@ -1,0 +1,309 @@
+<snippet>
+	<content><![CDATA[
+const ll UP = 4e5+4, mod = 998244353;
+//Mod = k*root_pw + 1, where root_pw is power of 2 ans k is odd
+template<ll Mod, ll root_pw, ll generator>
+struct NTT{
+	inline ll powm(ll a, ll b){
+		a %= Mod;
+		b %= (Mod-1);
+		if(b < 0) b += (Mod-1);
+		ll ans = 1;
+		while(b){
+			if(b&1ll) ans = ans*a%Mod;
+			b /= 2;
+			a = (a*a)%Mod;
+		}
+		return ans;
+	}
+	inline ll inv(ll a){
+		return powm(a,Mod-2);
+	}
+	ll root, root_1;
+	NTT(){
+		root = powm(generator, (Mod-1)/root_pw);//w_n
+		root_1 = inv(root);//(w_n)^(-1)
+	}
+	void ntt(vl &a, bool invert){
+		int n = sz(a);// it is some power of two
+		for(ll i =1, j=0; i<n; ++i){//bit inverse permutation
+			ll b = n>>1;//add 1 to i or we can say add n/2 to j in reverse order
+			for(;j&b;b>>=1) j ^= b;
+			j^=b;
+			if(i < j) swap(a[i],a[j]);
+		}
+		for(ll len = 2; len <= n; len<<=1){
+			ll wlen = invert ? root_1: root;//wlen^len = 1 ans root^root_pw = 1
+			for(ll i = len; i < root_pw; i<<=1){
+				wlen = (wlen*wlen%Mod);
+			}
+			for(ll i=0; i<n; i+=len){
+				ll w = 1;
+				for(ll j =i; j < i+len/2; j++){
+					ll k = j+len/2;
+					a[k] = (a[j] - w*a[k]%Mod + Mod)%Mod;
+					a[j] = (2*a[j]%Mod - a[k] + Mod)%Mod;
+					w = w*wlen%Mod;
+				}
+			}
+		}
+		if(invert){
+			ll ninv = inv(n);
+			f(i,0,n,1) a[i] = a[i]*ninv%Mod;
+		}
+	}
+	void extend_nnt(vl &a, bool ext = 1,ll atleast = -1){
+		if(ext){
+			if(atleast == -1){
+				atleast = 1;
+				while(atleast < 1ll*sz(a)) atleast<<=1;
+			}
+			a.resize(atleast,0);
+		}
+		ntt(a,0);
+	}
+	void innt(vl &a, bool reduce=1){//reduce last coeffs if 0
+		ntt(a,1);
+		if(reduce) while(sz(a) > 0 && a.back()==0) a.POB();
+	}
+	void elem_power(vl &a, ll k){
+		for(auto &x: a) x = powm(x,k);
+	}
+	void poly_power(vl &a, ll k){
+		while(sz(a) > 0 && a.back()==0) a.POB();
+		ll n = 1;
+		while( n < k*sz(a)) n<<=1;
+		extend_nnt(a,1,n);
+		elem_power(a,k);
+		innt(a);
+	}
+	vl power(vl a,ll p){
+		while(sz(a) > 0 && a.back()==0) a.POB();
+		vl ans;
+		ans.PB(1);
+		while(p){
+			if(p&1) ans = multiply(ans,a);
+			a = multiply(a,a);
+			p /= 2;
+		}
+		return ans;
+	}
+	vl multiply(vl const& a, vl const& b){
+		vl fa(all(a)), fb(all(b));
+		ll n = 1;
+		while(n < 1ll*sz(a) + 1ll*sz(b)) n<<=1;
+		extend_nnt(fa,1,n);
+		extend_nnt(fb,1,n);
+		f(i,0,n,1){
+			fa[i] = fa[i]*fb[i]%Mod;
+		}
+		innt(fa);
+		return fa;
+	}
+	void multiply_mem(vl & a, vl const& b){
+		vl fb(all(b));
+		ll n = 1;
+		while(n < 1ll*sz(a) + 1ll*sz(b)) n<<=1;
+		extend_nnt(a,1,n);
+		extend_nnt(fb,1,n);
+		f(i,0,n,1){
+			a[i] = a[i]*fb[i]%Mod;
+		}
+		innt(a);
+	}
+};
+NTT<mod, 1<<19,3> ntt;
+
+inline ll powm(ll a, ll b, ll Mod){
+	a %= Mod;
+	ll ans = 1;
+	while(b){
+		if(b&1ll) ans = (ans*a)%Mod;
+		b >>=1;
+		a = a*a%Mod;
+	}
+	return ans;
+}
+//If not prime then we have to use GCD
+inline ll inv(ll x, ll Mod){
+	return powm(x,Mod-2,Mod);
+}
+
+ll iv[UP];
+void pre(){
+	f(i,1,UP,1) iv[i] =  inv(i,mod);
+}
+
+template<ll Mod>//template for polynomial
+struct poly{
+	vl a; // take values b/w 0 to Mod-1
+	poly(){}
+	void reduce(){while(sz(a) > 0 && a.back() == 0) a.POB();}
+	poly(const vl &a): a(a){ reduce();}
+	poly operator += (const poly &rhs){
+		a.resize(max(sz(a), sz(rhs.a)), 0);
+		f(i,0,sz(rhs.a),1){
+			a[i] += rhs.a[i];
+			if(a[i] >= Mod) a[i] -= Mod;
+		}
+		reduce();
+		return *this;
+	}
+
+	poly operator -= (const poly & rhs){
+		a.resize(max(sz(a), sz(rhs.a)), 0);
+		f(i,0,sz(rhs.a),1){
+			a[i] -= rhs.a[i];
+			if(a[i] <0) a[i] += Mod;
+		}
+		reduce();
+		return *this;
+	}
+
+	poly operator *= (const ll &x){
+		for(auto &y : a) y = y*x%Mod;
+		if(x < 0) for(auto &y : a) if(y) y += Mod;
+		reduce();
+		return *this;
+	}
+	poly operator *= (const poly &t) {ntt.multiply_mem(a,t.a); return *this;}
+	poly operator + (const poly &t) const {return poly(*this) += t;}
+	//function will not modify member(^ because of this) variables of the struct unless it is mutable
+	poly operator - (const poly &t) const {return poly(*this) -= t;}
+	poly operator * (const poly &t) const {return poly(*this) *= t;}
+	poly operator * (const long long &x) const {return poly(*this) *= x;}
+	ll & operator [](int id) const{
+		assert(id < a.size() && id >= 0);
+		return a[id];
+	}
+	poly mod_xk(size_t k) const {//get same polynomial mod x^k
+		return vl(a.begin(), a.begin() + min(k,a.size()));
+	}
+	poly mul_xk(size_t k) const{// multiply by x^k
+		poly ans(*this);
+		ans.a.insert(ans.a.begin(),k,0ll);
+		return ans;
+	}
+	poly div_xk(size_t k) const{//divide by x^k, dropping coeffs of x^0 to x^(k-1)
+		return vl(a.begin() + min(a.size(),k), a.end());
+	}
+	poly subpoly(size_t l, size_t r) const{// return mod_xk(r).div_xk(l), i.e., l to r-1
+		return vl(a.begin() + min(l,a.size()), a.begin() + min(r,a.size()));
+	}
+	poly deriv() const {// calculate derivative
+		vl ans;
+		f(i,1,a.size(),1) ans.PB(i*a[i]%Mod);
+		return ans;
+	}
+	poly integrat() const{// calculate integral with C = 0
+		vl ans(vl{0});
+		f(i,0,a.size(),1) ans.PB(a[i]*iv[i+1]%Mod);
+		return ans;
+	}
+	poly inv_series(size_t n) const{// return inverse series mod x^n
+		//Let Q = inv(a) => inv(Q) - a = 0 - eqn
+		// Applying newton method on eqn ( f(q) = 0 by newton method q_k+1 = q_k - f/f')
+		// Now f(q) = inv(q) - a => q_k+1 = q_k + (inv(q_k) - a)*q_k*q_k
+		// => q_k+1 = q_k(2 - a*q_k) mod x^(2^(k+1)), where q_k*a = 1 mod x^(2^k)
+		// q_0 = inv(a[0])
+		// eqn can be simplified as q_k+1.subpoly(0,2^k) = q_k and q_k+1.subpoly(2^k, 2^k+1) = - q_k * a * q_k
+		assert(a.size() && a[0]); // a[0] should be non-zero for inverse
+		ll modiv = inv(a[0], Mod);
+		poly ans({modiv});
+		size_t tot = 1;
+		while(tot < n){
+			poly c = (ans * mod_xk(2*tot)).subpoly(tot, 2*tot);
+			ans -= (ans*c).mod_xk(tot).mul_xk(tot);
+			tot *= 2;
+		}
+		return ans.mod_xk(n);
+	}
+	poly logs(size_t n){// return log p(x) mod x^n
+		// q = log a => q' = a'/a => Q = integral(a'/a)
+		assert(a.size() && a[0] == 1); // so hat integral coefficient is zero
+		return (deriv().mod_xk(n) * inv_series(n)).integrat().mod_xk(n);
+	}
+	poly exps(size_t n){ // return q(x) = exp(a(x)) mod x^n
+		// f(q) = ln(q) - a = 0, f'(q) = inv(q)
+		// => q_k+1 = q_k (1+a- ln q_k) mod q^(2^(k+1))
+		// q_0 = 1
+		reduce();
+		poly ans(vl{1});
+		if(sz(a) == 0) return ans;
+		assert(a[0] == 0);
+		size_t tot = 1;
+		while(tot < n){
+			poly c = ans.logs(2*tot).div_xk(tot) - subpoly(tot,2*tot);
+			ans -= (ans*c).mod_xk(tot).mul_xk(tot);
+			tot *= 2;
+		}
+		return ans.mod_xk(n);
+	}
+	ll eval(ll x) const{ // evaluate polynomial at x
+		ll ans(0);
+		f(i,sz(a)-1,-1,-1){
+			ans = ans*x%Mod;
+			ans += a[i];
+			if(ans >= Mod) ans -= Mod;
+		}
+		return ans;
+	}
+
+	poly reverse(size_t n, bool rev = 0) const{
+		poly ans(*this);
+		if(rev) {
+			ans.a.resize(max(n, ans.a.size()));
+		}
+		std::reverse(all(ans.a));
+		return ans.mod_xk(n);
+	}
+	pair<poly,poly> divmod(const poly &b) const {// returns quotient and remainder of a mod b
+		if(a.size() < b.a.size()) return { poly(vl{0}), *this};
+		int d = int(a.size()) - int(b.a.size());
+		poly D = (reverse(d+1)*b.reverse(d+1).inv_series(d+1)).mod_xk(d+1).reverse(d+1,1);
+		return {D, *this - D*b};
+	}
+	poly operator / (const poly &t) const { return divmod(t).F;}
+	poly operator % (const poly &t) const { return divmod(t).S;}
+	poly pow(size_t k, size_t n){
+		// p^k = e^(k * ln(p))
+		reduce();
+		if(a.size() == 0) return *this;
+		ll lead;
+		int index;
+		f(i,0,sz(a),1){
+			if(a[i]){
+				lead = a[i];
+				index = i;
+				break;
+			}
+		}
+		if(index*k >= n) return vl{0};
+		poly t = div_xk(index) * inv(lead,Mod);
+		return (((t.logs(n)*k).exps(n))**powm(lead,k,Mod)).mul_xk(index*k).mod_xk(n);
+	}
+};
+void solve(){
+
+}
+
+int main(){
+#ifdef LOCAL
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
+#endif
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	ll t;
+	t = 1;
+	while(t--){
+		solve();
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_ntt--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

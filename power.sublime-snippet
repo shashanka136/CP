@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+/*------power function with mod, and inverse modulo prime number------*/
+int powm(int a, int b, ll mod = mod) {
+	int ans = 1;
+	b %= (mod - 1);
+	if (b < 0) b += mod - 1;
+	while (b) {
+		if (b & 1) ans = int(1ll * ans * a % mod);
+		a = int(1ll * a * a % mod);
+		b >>= 1;
+	}
+	return ans;
+}
+int inv(int i, ll mod = mod) { //mod must be prime and i must be coprime with mod
+	return powm(i, int(mod) - 2, mod);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_pow--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

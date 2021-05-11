@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+int lift(int k){
+	int pos = 0,sum = 0;
+	for(int i = 20; i>=0;i--){
+		int z = pos + (1<<i);
+		if(z <= n && sum + bit[z] <k){
+			pos = z;
+			sum += bit[z];
+		}
+	}
+	return pos+1;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_binary_lifting--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

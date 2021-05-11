@@ -1,0 +1,66 @@
+<snippet>
+	<content><![CDATA[
+struct item {
+	ll n;
+	item(int x = 0): n(x) {}
+	item operator+(const item& oth) { //operation to merge
+		item r;//default is done for sum
+		r.n = n + oth.n;//must be a associative function
+		return r;
+	}
+};
+
+template<class node>
+struct segtree {
+	int n;
+	vector<node> st;
+
+	void init(int _n) { //give some default value value if required
+		n = _n;
+		st.assign(2 * n, node());
+	}
+	inline int le(int x) {return 2 * x + 1;}
+	inline int ri(int x) {return 2 * x + 2;}
+	//change vector to int* if required in both build
+
+	void build(vector<int> &a) {
+		init(a.size());
+		for (int i = n; i < 2 * n; i++)
+			st[i] = a[i - n];
+		for (int i = n - 1; i > 0; i--)
+			st[i] = st[i << 1] + st[i << 1 | 1];
+	}
+
+	void set(int i, int x) {
+		for (st[i += n] = x; i >>= 1; )
+			st[i] = st[i<<1] + st[i<<1|1];
+	}
+
+	node query(int l, int r) {
+		node anl, anr;r++;
+		for(l += n,r+=n;l < r; l>>=1, r>>=1){
+			if(l&1) anl = anl + st[l++];//if l is right child then it's parent is not included
+			if(r&1) anr = st[--r] + anr;// if r is right child then r-1 is left child and same thing
+			//parent is not included
+		}
+		return anl + anr;
+	}
+
+	/*int kth(int k, int l, int r, int p) {
+		if(l == r){ return l;}
+		int m = l+r>>1;
+		if(st[le(p)].n >= k) return kth(k,l,m,le(p));
+		else return kth(k-st[le(p)].n,m+1,r,ri(p));
+	}
+
+	int kth(int k) {
+		return kth(k, 0, n - 1, 0);
+	}*/
+};
+typedef segtree<item> segm;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_segtree_iterative--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

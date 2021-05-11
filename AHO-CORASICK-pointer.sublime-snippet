@@ -1,0 +1,79 @@
+<snippet>
+	<content><![CDATA[
+const int K = 26;//alphabet size
+struct node {
+	node* ch[K];
+	node* p;
+	node* sl;
+	bool leaf = false;
+	char pch; //suffix_link
+	node(node* p = NULL, char c = ''): p(p), pch(c) {
+		sl = NULL; ch[0] = NULL; ch[1] = NULL;
+	}
+};
+
+template<class node>
+struct ahoc {
+	node* root = NULL;
+
+	ahoc() {
+		root = new node();
+	}
+	inline int getin(char c) { //modify accordingly
+		return c - 'a';
+	}
+	void ins(string const& s) {
+		node* cr = root;
+		for (char c : s) {
+			int z = getin(c);
+			if (!cr->ch[z]) {
+				cr->ch[z] = new node(cr, c);
+			}
+			cr = cr->ch[z];
+		}
+		cr->leaf = true;
+	}
+
+	node* get_sl(node* cr) {
+		if (!cr->sl) {
+			if (cr == root || cr->p == root)
+				cr->sl = root;
+			else
+				cr->sl = go(get_sl(cr->p), cr->pch);
+		}
+		return cr->sl;
+	}
+
+	node* go(node* cr, char c) {
+		int z = getin(c);
+		if (!cr->nx[z]) {
+			if (cr == root)
+				cr->nx[z] = root;
+			else
+				cr->nx[z] = go(get_sl(cr), c);
+		}
+		return cr->nx[z];
+	}
+
+	node* get_nt(node* cr) {//next terminal
+		if (!cr->nt) {
+			node* tmp = get_sl(cr);
+			if (tmp == root) {
+				cr->nt = root;
+			} else if (!tmp->leaf) {
+				cr->nt = get_nt(tmp);
+			} else {
+				cr->nt = tmp;
+			}
+		}
+		return cr->nt;
+	}
+
+};
+//put dollar
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_aho_pointer--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

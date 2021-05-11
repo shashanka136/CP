@@ -1,0 +1,169 @@
+<snippet>
+	<content><![CDATA[
+struct edge {
+	int u, v, lo;
+	ll x;
+	edge(int _u, int _v, ll _x): u(_u), v(_v), x(_x) {
+		lo = -1;
+	}
+	int get(int t) { return t ^ u ^ v;}
+};
+
+const int inf = INT_MAX;
+struct item {
+	int n;
+	item(int x = inf): n(x) {}
+	item operator+(const item& oth) { //operation to merge
+		item r;//default is done for sum
+		r.n = min(n, oth.n); //must be a associative function
+		return r;
+	}
+};
+
+template<class node>
+struct segtree {
+	int n;
+	vector<node> st;
+
+	void init(int _n) { //give some default value value if required
+		n = _n;
+		st.assign(2 * n, node());
+	}
+	inline int le(int x) {return 2 * x + 1;}
+	inline int ri(int x) {return 2 * x + 2;}
+	//change vector to int* if required in both build
+
+	void build(vector<ll> &a) {
+		init(a.size());
+		for (int i = n; i < 2 * n; i++)
+			st[i] = a[i - n];
+		for (int i = n - 1; i > 0; i--)
+			st[i] = st[i << 1] + st[i << 1 | 1];
+	}
+
+	void set(int i, ll x) {
+		for (st[i += n] = x; i >>= 1; )
+			st[i] = st[i << 1] + st[i << 1 | 1];
+	}
+
+	node query(int l, int r) {
+		node anl, anr; r++;
+		for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
+			if (l & 1) anl = anl + st[l++]; //if l is right child then it's parent is not included
+			if (r & 1) anr = st[--r] + anr; // if r is right child then r-1 is left child and same thing
+			//parent is not included
+		}
+		return anl + anr;
+	}
+
+	/*int kth(int k, int l, int r, int p) {
+		if(l == r){ return l;}
+		int m = l+r>>1;
+		if(st[le(p)].n >= k) return kth(k,l,m,le(p));
+		else return kth(k-st[le(p)].n,m+1,r,ri(p));
+	}
+
+	int kth(int k) {
+		return kth(k, 0, n - 1, 0);
+	}*/
+};
+typedef segtree<item> segm;
+
+template<class node, class edge>
+struct hld {
+	int n,t;
+	vector<int> tot, up, in, out, down, dep, par;
+	vector<vector<ll>> val;
+	vector<edge> edges;
+	vector<vector<int>> adj;
+	vector<segtree<node>> st;
+	void init(int _n) {
+		n = _n;t=0;
+		st.resize(n); val.resize(n);
+		tot.assign(n, 0); up.assign(n, 0);
+		in.assign(n, 0); out.assign(n, 0); down.assign(n, 0);
+		dep.assign(n, 0); par.assign(n, 0);
+		adj.assign(n, vector<int>(0));
+	}
+
+	void add_edge(int u, int v, int x){
+		adj[u].EB(edges.size());
+		adj[v].EB(edges.size());
+		edges.EB(u,v,x);
+	}
+	
+	void dfs_tot(int v = 0, int p = -1) {
+		tot[v] = 1;
+		par[v] = p;
+		for (auto &i : adj[v]) {
+			int u = edges[i].get(v);
+			int r = edges[adj[v][0]].get(v);
+			if (u == p) continue;
+			dep[u] = dep[v] + 1;
+			edges[i].lo = u;//lo represents node of more depth
+			dfs_tot(u, v);
+			tot[v] += tot[u];
+			if (adj[v][0] == p || tot[u] > tot[r]) {
+				swap(i, adj[v][0]);
+			}
+		}
+	}
+
+	void dfs_hld(int v = 0, int p = -1) {//dfs_tot must be called first
+		in[v] = t++; down[v] = v;
+		int r = edges[adj[v][0]].get(v);
+		for (auto& i : adj[v]) {//remember to emplace back in val[0]
+			int u = edges[i].get(v);
+			if (u == p) continue;
+			up[u] = (u == r ? up[v] : u);
+			val[up[u]].EB(edges[i].x);
+			dfs_hld(u, v);
+			if (u == r) down[v] = down[u];
+		}
+		out[v] = t;
+	}
+
+	void flst() {
+		for (int i = 0; i < n; i++) {
+			if (st[up[i]].n == 0) {
+				st[up[i]].build(val[up[i]]);
+			}
+		}
+	}
+	void make(){
+		dfs_tot();dfs_hld();
+		flst();
+	}
+	int hin(int i) { //return index in heavy path
+		return dep[i] - dep[up[i]];
+	}
+
+	void set(int i, ll x) {
+		st[up[i]].set(hin(i), x);
+	}
+
+	node query(int l, int r) {// l,r on same heavy path
+		return st[up[l]].query(hin(l), hin(r));
+	}
+	node path_query(int a, int b) { //from a to b
+		node res;
+		for (; up[a] != up[b]; b = par[up[b]]) {
+			if (dep[up[a]] > dep[up[b]])
+				swap(a, b);
+			//query  [in[up[b]], in[b]]
+			res = res + query(up[b], b);
+		}
+		if (dep[a] > dep[b])
+			swap(a, b);
+		if (a == b) return res;
+		res = res + st[up[a]].query(hin(a) + 1, hin(b)); // query [in[a],in[b]];
+		return res;
+	}
+};
+typedef hld<item, edge> hldm;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_hld_separate_segtree_edge--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

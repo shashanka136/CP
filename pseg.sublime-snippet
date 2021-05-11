@@ -1,0 +1,41 @@
+<snippet>
+	<content><![CDATA[
+int l[SIZE], r[SIZE], st[SIZE], NODES = 0;
+int newleaf(int value) {
+    int p = ++NODES;
+    l[p] = r[p] = 0; // null
+    st[p] = value;
+    return p;
+}
+int newparent(int lef, int rig) {
+    int p = ++NODES;
+    l[p] = lef;
+    r[p] = rig;
+    st[p] = st[lef] + st[rig]; // immediately update value from children
+    return p;
+}
+
+#define M ((L+R)/2)
+int build(int arr[], int L=0, int R=n-1) {
+    if (L == R) return newleaf(arr[L]); // construct as leaf
+    else return newparent(build(arr, L, M), build(arr, M+1, R)); // construct as parent
+}
+
+int update(int i, int x, int p, int L=0, int R=n-1) {
+    if (L == R) return newleaf(st[p] + x);
+    if (i <= M) return newparent(update(i, x, l[p], L, M), r[p]);
+    else        return newparent(l[p], update(i, x, r[p], M + 1, R));
+}
+
+int rangecopy(int a, int b, int p, int revert, int L=0, int R=n-1) {
+    if (b < L || R < a) return p; // keep version
+    if (a <= L && R <= b) return revert; // reverted version
+    return newparent(rangecopy(a, b, l[p], l[revert], L, M),
+                     rangecopy(a, b, r[p], r[revert], M+1, R));
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_pseg--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

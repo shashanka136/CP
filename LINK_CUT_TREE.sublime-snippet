@@ -1,0 +1,104 @@
+<snippet>
+	<content><![CDATA[
+struct Linkcut {
+	struct item {//ch is child
+		int p = 0, ch[2] = {0, 0}, pp = 0;
+		bool flip = 0;
+		//val and dp are just for your convenience
+	};
+	vector<item> T;
+
+	Linkcut(int n) : T(n + 1) {}//initialize anything you want
+
+	// SPLAY TREE OPERATIONS START
+
+	int dir(int x, int y) {//in which direction is y of x
+		return T[x].ch[1] == y;
+	}
+
+	void set(int x, int d, int y) {//set dth child of x to y
+		if (x) T[x].ch[d] = y, pull(x);
+		if (y) T[y].p = x;
+	}
+
+	void pull(int x) {//recalculate value of augmenting functions you want
+		if (!x) return;
+		int &l = T[x].ch[0], &r = T[x].ch[1];
+	}
+
+	void push(int x) {//if t[x].flip then flip tree w.r.t vertical mirror
+		if (!x || !T[x].flip) return;
+		int &l = T[x].ch[0], &r = T[x].ch[1];
+		swap(l, r); T[l].flip ^= 1; T[r].flip ^= 1;
+		T[x].flip = 0;
+	}
+
+	void rotate(int x, int d) {//if d is 1 it is right rotate
+		// if d is 0 it is left rotate
+		int y = T[x].p, z = T[y].p, w = T[x].ch[d];
+		swap(T[x].pp, T[y].pp);
+		set(y, !d, w);
+		set(x, d, y);
+		set(z, dir(z, y), x);
+	}
+
+	void splay(int x) {//make parent of x 0, using rotate operations
+		for (push(x); T[x].p;) {
+			int y = T[x].p, z = T[y].p;
+			push(z); push(y); push(x);
+			int dx = dir(y, x), dy = dir(z, y);
+			if (!z) rotate(x, !dx);
+			else if (dx == dy) rotate(y, !dx), rotate(x, !dx);
+			else rotate(x, dy), rotate(x, dx);
+		}
+	}
+
+	// SPLAY TREE OPERATIONS END
+
+	void mk_root(int u) {//make u the root of a represented tree
+		access(u);
+		int l = T[u].ch[0];
+		T[l].flip ^= 1;
+		swap(T[l].p, T[l].pp);
+		set(u, 0, 0);
+	}
+
+	void access(int _u) {//we are connecting _u to the root via path in the represented tree
+		for (int v = 0, u = _u; u; u = T[v = u].pp) {
+			splay(u); splay(v);//make v and u the root
+			int r = T[u].ch[1];//make right child of u null
+			T[v].pp = 0;//as we have to seperate them from lower vertices
+			swap(T[r].p, T[r].pp);//and then join them
+			set(u, 1, v);
+		}
+		splay(_u);
+	}
+
+	void link(int u, int v) {//depth of v will be greater than u
+		assert(!conn(u, v));
+		mk_root(v);
+		T[v].pp = u;
+	}
+
+	void cut(int u, int v) {
+		mk_root(u); access(u); splay(v);
+		assert(T[v].pp == u);
+		T[v].pp = 0;
+	}
+
+	bool conn(int u, int v) {
+		if (u == v) return true;
+		mk_root(u); access(v); splay(u);
+		return T[v].p == u || T[T[v].p].p == u;
+	}
+
+	int path(int u, int v) {//note that we make u as a root
+		mk_root(u); access(v); return v;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_link_cut_tree--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

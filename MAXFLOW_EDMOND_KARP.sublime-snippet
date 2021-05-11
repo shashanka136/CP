@@ -1,0 +1,64 @@
+<snippet>
+	<content><![CDATA[
+const int inf = 1e9;
+struct edkarp {
+	vector<vector<int>> cap;
+	vector<vector<int>> adj;
+	int n;
+	void init(int n): n(n) {
+		cap.assign(n, vector<int>(n, 0));
+		adj.assign(n, vector<int>(0));
+	}
+
+	void add(int u, int v, int c) {
+		adj[u].emplace_back(v);
+		adj[v].emplace_back(u);
+		cap[u][v] = c;
+	}
+	int bfs(int st, int tar, vector<int> &p) { //p must already be of req. size
+		fill(p.begin(), p.end(), -1);
+		p[st] = -2;
+		queue<pair<int, int>> q;
+		q.push(MP(st, inf));
+		while (!q.empty()) {
+			int i = q.front().F, flow = q.front().S;
+			q.pop();
+			for (auto &x : adj[i]) {
+				if (p[x] == -1 && cap[i][x]) {
+					p[x] = i;
+					int nf = min(flow, cap[i][x]);
+					if (x == tar) {
+						return nf;
+					}
+					q.push(MP(x, nf));
+				}
+			}
+		}
+		return 0;
+	}
+
+	int maxflow(int st, int tar) {
+		// if there is need to upgrade number of nodes in graph
+		vector<int> p(n);//num is the number of nodes
+		int flow = 0;
+		int nf;//new flow
+
+		while (nf = bfs(st, tar, p)) {
+			flow += nf;
+			int cr = tar;
+			while (cr != st) {
+				cap[p[cr]][cr] -= nf;
+				cap[cr][p[cr]] += nf;
+				cr = p[cr];
+			}
+		}
+
+		return flow;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_maxflow_edmond_karp--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

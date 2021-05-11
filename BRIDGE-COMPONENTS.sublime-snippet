@@ -1,0 +1,109 @@
+<snippet>
+	<content><![CDATA[
+struct bridges{
+	int n,m; // number of nodes
+	vector<int> *tree; // adjacency list of graph
+	vector<int> *adj;
+	bool* vis, *isbr;
+	int* tin,*low,*us,*vs;
+	int cmpno;
+	int timer;
+	queue<int> *q;
+	bridges(){}
+	bridges(int _n, int _m): n(_n), m(_m){
+		cmpno = 0;
+		tree = new vector<int>[n+1];
+		adj = new vector<int>[n+1];
+		vis = new bool[n+1];
+		isbr = new bool[m+1];
+		tin = new int[n+1];
+		low = new int[n+1];
+		us = new int[m+1];
+		vs = new int[m+1];
+		q = new queue<int>[n+1];
+	}
+
+	int nxt(int u,int e){
+	    return us[e]==u? vs[e]:us[e];
+	}
+
+	void get_edges(){
+		for(int i = 0; i<m; i++){
+			cin>>us[i]>>vs[i];
+			us[i]--;vs[i]--;
+			adj[us[i]].push_back(i);
+			adj[vs[i]].push_back(i);
+		}
+	}
+
+	void dfs0(int i, int p = -1) {
+		vis[i] = true;
+		tin[i] = low[i] = timer++;
+		for (int x : adj[i]) {
+			int nx = nxt(i,x);
+			if (nx == p) continue;
+			if (vis[nx]) {
+				low[i] = min(low[i], tin[nx]);
+			} else {
+				dfs0(nx, i);
+				low[i] = min(low[i], low[nx]);
+				if (low[nx] > tin[i])
+					isbr[x] = true;//i-x is a bridge
+			}
+		}
+	}
+
+	void find_bridges(){
+		timer = 0;
+		fill(vis,vis+n+1,false);
+		fill(isbr,isbr+m+1,false);
+		fill(tin,tin+n+1,-1);
+		fill(low,low+n+1,-1);
+		for (int i = 0; i < n; ++i) {
+			if (!vis[i])
+				dfs0(i);
+		}
+	}
+	//here starts the formation of bridge tree, we already found
+	//the bridge edges in the graph
+	void dfs1(int v){
+		int crcmp = cmpno;//current component number
+		q[crcmp].push(v);//during this dfs/bfs we may go to
+		//other component that's why different queue for every component
+		vis[v] = 1;
+		while(!q[crcmp].empty()){// exploring current component
+			int u = q[crcmp].front();
+			q[crcmp].pop();
+			for(int x : adj[u]){
+				int nx = nxt(u,x);
+				if(vis[nx]) continue;
+				if(isbr[x]){
+					cmpno++;
+					tree[crcmp].push_back(cmpno);
+					tree[cmpno].PB(crcmp);
+					dfs1(nx);
+				}else{
+					q[crcmp].push(nx);
+					vis[nx] = 1;
+				}
+			}
+
+		}
+	}
+
+	void find_components(){
+		cmpno = 0;
+		fill(vis,vis+n+1,false);
+		for(int i = 0; i < n; i++){
+			if(!vis[i])
+				dfs1(i);
+		}
+	}
+
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_bridge_components--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

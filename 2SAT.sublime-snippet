@@ -1,0 +1,79 @@
+<snippet>
+	<content><![CDATA[
+struct sat2 {
+	int n, nm;
+	vector<int> vis, tout;
+	vector<int> cmp_num;
+	vector<vector<int>> adj, rev;
+	void init(int _n) { //2*i,2*i+1 are complement of each other
+		n = 2 * _n;
+		vis.assign(n, 0); cmp_num.assign(n, -1);
+		tout.assign(n, 0);
+		adj.assign(n, vector<int>(0));
+		rev.resize(n, vector<int>(0));
+	}
+	inline int com(int i) { return i ^ 1;}
+	void addor(int i, int j) { // i or j is true
+		adj[com(i)].EB(j);
+		adj[com(j)].EB(i);
+		rev[i].EB(com(j));
+		rev[j].EB(com(i));
+	}
+
+	void addone(int i, int j) { //exactly one of i or j is true
+		addor(i, j);
+		addor(com(i), com(j));
+	}
+
+	void addimp(int i, int j){// i implies j or we can say com(i) or j
+		addor(com(i), j);
+	}
+	
+	void addeq(int i, int j) { //either both are true or both are false
+		addone(com(i), j);
+	}
+
+	void dfs1(int i) {
+		vis[i] = 1;
+		for (int x : adj[i]) {
+			if (!vis[x]) dfs1(x);
+		}
+		tout[nm++] = i;
+	}
+
+	void dfs1() {
+		nm = 0;
+		for (int i = 0; i < n; i++) {
+			if ( !vis[i] )dfs1(i);
+		}
+	}
+	void dfs2(int i) {
+		cmp_num[i] = nm;
+		for (int x : rev[i]) {
+			if (cmp_num[x] == -1) dfs2(x);
+		}
+	}
+
+	void dfs2() { //reset nm to 0
+		nm = 0;
+		for (int i = 0; i < n; i++) {
+			int j = tout[n - 1 - i];
+			if (cmp_num[j] == -1) {
+				dfs2(j); nm++;
+			}
+		}
+	}
+
+	bool sat() { //dfs2 and dfs1 must be called before
+		for (int i = 0; i < n; i += 2) {
+			if (cmp_num[i] == cmp_num[i + 1]) return false;
+		}
+		return true;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_2sat--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

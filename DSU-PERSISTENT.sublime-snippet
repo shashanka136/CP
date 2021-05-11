@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+int p[N],siz[N],comps;
+struct modify{
+	int i,j,sj;
+
+};
+stack<int> lens;
+stack<modify> mods;
+void persist(){
+	lens.push(sz(mods));
+}
+void rollback(){
+	while(sz(mods) > lens.top()){
+		p[mods.top().i] = mods.top().i;
+		siz[mods.top().j] = mods.top().sj;
+		comps += 1;
+		mods.pop();
+	}
+	lens.pop();
+}
+int fin(int i){
+	while(p[i]!= i){
+		i = p[i];
+	}
+	return p[i];
+}
+void un(int i, int j){
+	i = fin(i), j = fin(j);
+	if(i == j) return;
+	if(siz[i] > siz[j]) swap(i,j);
+	mods.push({i,j,siz[j]});
+	p[i] = j;
+	comps -= 1;
+	siz[j] += siz[i];
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_dsu-persistent--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

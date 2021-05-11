@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[
+struct edge {
+	int u, v;
+	edge(int _u, int _v): u(_u), v(_v) {}
+	int get(int t) { return t ^ u ^ v;}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_edge--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

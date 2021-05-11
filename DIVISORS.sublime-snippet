@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+void get_divisors(ll x, vl &divs){
+	stack<ll> st;
+	for(ll i = 1; i*i<=x; i++){
+		if(x%i == 0){
+			divs.PB(i);
+			if(i*i != x) st.push(x/i);
+		}
+	}
+	while(!st.empty()){
+		divs.PB(st.top());
+		st.pop();
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_divisors--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

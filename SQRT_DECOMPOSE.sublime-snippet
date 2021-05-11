@@ -1,0 +1,60 @@
+<snippet>
+	<content><![CDATA[
+struct sqrtdecomp{
+	vi state,lazy,sums;//each block will be of size rt except last
+	int n,rt;//rt is sqrt+1
+	sqrtdecomp(int m){
+		n = m;
+		rt = sqrtl(n)+1;
+		lazy.assign(rt+1,0);
+		sums.assign(rt+1,0);
+		state.assign(rt+1,0);
+	}
+	void upd(int i, int j){
+		if(i>j) return;
+		if(i < 0 ) return upd(0,j);
+		if(j >= n) return upd(i,n-1);
+		int ri = i/rt, rj = j/rt;
+		if(ri == rj){
+			for(int it = i; it<=j; it++){
+				state[it] ^= 1;
+				int change = (state[it]<<1)-1;
+				sums[ri] += (lazy[ri]? -change : change);
+			}
+			return;
+		}
+		for(int it = ri+1; it < rj; it++){
+			sums[it] = rt - sums[it];
+			lazy[it] ^= 1;
+		}
+		upd(i,rt*(ri+1)-1);
+		upd(rt*rj,j);
+	}
+
+	int query(int i, int j){
+		if(i>j) return 0;
+		if(i < 0 ) return query(0,j);
+		if(j >= n) return query(i,n-1);
+		int ri = i/rt, rj = j/rt;
+		int ans = 0;
+		if(ri == rj){
+			for(int it = i; it <=j; it++){
+				ans += state[it];
+			}
+			if(lazy[ri]) ans = (j-i+1) - ans;
+			return ans;
+		}
+		for(int it = ri+1;it<rj;it++){
+			ans += sums[it];
+		}
+		ans += query(i, rt*(ri+1)-1);
+		ans += query(rt*(rj), j);
+		return ans;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_decompose--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

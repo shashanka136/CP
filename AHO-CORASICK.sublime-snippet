@@ -1,0 +1,67 @@
+<snippet>
+	<content><![CDATA[
+const int K = 26;//alphabet size
+struct item {
+	int nx[K];
+	bool leaf = false;
+	int p = -1; char pch; int sl = -1; //suffix_link
+	int go[K];
+	item(int p = -1, char c = ''): p(p), pch(c) {
+		fill(begin(nx), end(nx), -1);
+		fill(begin(go), end(go), -1);
+	}
+};
+
+template<class node>
+struct ahoc {
+	vector<node> t;
+
+	ahoc() {
+		t.resize(1);
+	}
+	inline int getin(char c) { //modify accordingly
+		return c - 'a';
+	}
+	void ins(string const& s) {
+		int v = 0;
+		for (char c : s) {
+			int z = getin(c);
+			if (t[v].nx[z] == -1) {
+				t[v].nx[z] = t.size();
+				t.emplace_back(v, c);
+			}
+			v = t[v].nx[z];
+		}
+		t[v].leaf = true;
+	}
+
+	int get_sl(int v) {
+		if (t[v].sl == -1) {
+			if (v == 0 || t[v].p == 0)
+				t[v].sl = 0;
+			else
+				t[v].sl = go(get_sl(t[v].p), t[v].pch);
+		}
+		return t[v].sl;
+	}
+
+	int go(int v, char c) {
+		int z = getin(c);
+		if (t[v].go[z] == -1) {
+			if (t[v].nx[z] != -1)
+				t[v].go[z] = t[v].nx[z];
+			else if (v == 0)
+				t[v].go[z] = 0;
+			else
+				t[v].go[z] = go(get_sl(v), c);
+		}
+		return t[v].go[z];
+	}
+};
+//put dollar
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_aho--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

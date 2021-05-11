@@ -1,0 +1,80 @@
+<snippet>
+	<content><![CDATA[
+
+struct pt{
+    ll x,y;
+    pt(){}
+    pt(ll _x, ll _y):x(_x), y(_y){}
+    ll eval(ll _x){ return x*_x + y;}//if we consider it as a line
+    pt operator+(const pt & p) const { return pt(x + p.x, y + p.y); }
+    pt operator-(const pt & p) const { return pt(x - p.x, y - p.y); }
+    ll cross(const pt & p) const { return x * p.y - y * p.x; }
+    ll dot(const pt & p) const { return x * p.x + y * p.y; }
+    ll cross(const pt & a, const pt & b) const { return (a - *this).cross(b - *this); }
+    ll dot(const pt & a, const pt & b) const { return (a - *this).dot(b - *this); }
+    ll sqrLen() const { return this->dot(*this); }
+};
+
+bool cmp(pt a, pt b) {
+    return a.x < b.x || (a.x == b.x && a.y < b.y);
+}
+
+inline bool eq(pt a, pt b){
+	return MP(a.x,a.y) == MP(b.x, b.y);
+}
+
+inline ll cross(pt a, pt b){
+	return a.x *b.y - b.x*a.y;
+}
+inline bool cw(pt a, pt b, pt c) {
+    return cross(b-a,c-a) <= 0ll;
+}
+
+inline bool ccw(pt a, pt b, pt c) {
+    return cross(b-a,c-a) >= 0ll;
+}
+
+struct ConvexHull{
+	int len;
+	pt *hull;
+	ConvexHull(int _mxlen){
+		len = 0; hull = new pt[++_mxlen];
+	}
+
+	inline bool take_out(int a){
+		// return cw(hull[a],hull[b],hull[c]);//formin
+		return ccw(hull[a-2],hull[a-1],hull[a]);//formax
+	}
+	void add_line(ll k, ll b){//add line kx+b
+		hull[len++] = pt{k,b};
+		while(len >2 && take_out(len-1)){
+			len--;hull[len-1] = hull[len];
+		}
+	}
+	ll query(ll x){//find max/min value of kx+b, where (k,b) is some line in hull
+		int l = 0, r = len-1;
+		while(r > l){
+			int m = l+r>>1;
+			if(hull[m].eval(x) < hull[m+1].eval(x)){//for max
+				l = m+1;
+			}else{
+				r = m;
+			}
+			// if(hull[m].eval(x) <= hull[m+1].eval(x)){// for min
+			// 	r = m;
+			// }else{
+			// 	l = m+1;
+			// }
+		}
+		return hull[l].eval(x);
+	}
+};
+
+//note that if both x,y are very large then use arbitrary addition one only
+//as overflow can happen in cross
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_convex_hull_trick--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+	int kth(int k, int l, int r, int p) {
+		if(l == r){ return l;}
+		int m = l+r>>1;
+		if(st[le(p)].n >= k) return kth(k,l,m,le(p));
+		else return kth(k-st[le(p)].n,m+1,r,ri(p));
+	}
+
+	int kth(int k) {
+		return kth(k, 0, n - 1, 0);
+	}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_kth--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

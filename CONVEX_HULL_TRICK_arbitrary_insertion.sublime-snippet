@@ -1,0 +1,54 @@
+<snippet>
+	<content><![CDATA[
+struct line{//If we want to change some struct variable within
+	mutable ll k,b,p;//const function then use mutable
+	bool operator<(const line& nx) const { return k < nx.k;}
+	bool operator<(ll x) const{ return p < x;}
+};
+
+struct linecont : multiset<line, less<>> {//inheriting multiset, so that typing can be made easy
+	const ll inf = LLONG_MAX;//less<> used for purpose of lower bound
+	typedef iterator it;
+	ll floor(ll a, ll b){//floor of(a/b)
+		return a/b - ((a^b)<0 && a%b);
+	}
+	bool isect(it m, it n){//check if m is above n where n is part of convex hull
+		//also calculate the intersection of m & n, i.e., *m.p
+		//m->k <= n->k, return true if m is above n
+		// trace(m->k,m->b, m->p);
+		// trace(n->k,n->b, n->p);
+		if(n == end()){
+			m->p = inf; return false;
+		}
+		if(m->k == n->k) m->p = m->b > n->b ? inf: -inf;
+		else m->p = floor(m->b - n->b,n->k - m->k);//m-coordinate of intersection of m & n
+		return m->p >= n->p;
+	}
+	// it erase(it z){//can be used for debugging purpose
+	// 	trace(z->k,z->b, z->p);
+	// 	return this->std::multiset<line, less<>>::erase(z);
+	// }
+	void add_line(ll k, ll b){
+		it z = insert({k,b,0});
+		it y = z++;
+		while(isect(y,z)) z = erase(z);//check if any line of greater slope will be lowered
+		//and update corresponding value of p
+		it x = y;//lines of lower slope can be above current line
+		if(x != begin() && isect(--x,y)) isect(x,y = erase(y));//if one more can be deleted
+		while((y = x) != begin() && (--x)->p >= y->p){
+			isect(x,erase(y));
+		}
+	}
+
+	ll query(ll x){
+		assert(!empty());
+		line l = *lower_bound(x);
+		return l.k*x+l.b;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_convex_hull_dp_arbitrary_insertion--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

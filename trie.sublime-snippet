@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+/*-----------trie------------*/
+struct trie{
+	ll cnt;
+	trie* ch[2];
+	trie(): cnt(0ll){
+		ch[0] = NULL;
+		ch[1] = NULL;
+	}
+};
+trie* mt = new trie();
+void ins(ll x, ll t){
+	trie* cur = mt;
+	cur->cnt++;
+	f(i,t,-1,-1){
+		ll ind = x>>i&1;
+		if(!cur->ch[ind]){
+			cur->ch[ind] = new trie();
+		}
+		cur = cur->ch[ind];
+		cur->cnt++;
+	}
+}
+void del(ll x){
+	trie* cur = mt;
+	cur->cnt--;
+	f(i,mxb,-1,-1){
+		ll ind = x>>i&1;
+		trie* temp = cur;
+		cur = cur->ch[ind];
+		cur->cnt--;
+		if(cur->cnt == 0){
+			temp->ch[ind] = NULL;
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_trie--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

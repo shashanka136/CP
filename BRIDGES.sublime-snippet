@@ -1,0 +1,60 @@
+<snippet>
+	<content><![CDATA[
+struct bridges{
+	int n; // number of nodes
+	vector<int> *adj; // adjacency list of graph
+
+	bool* vis;
+	int* tin;
+	int* low;
+	int timer;
+
+	bridges(int _n): n(_n){
+		adj = new vector<int>[n+1];
+		vis = new bool[n+1];
+		tin = new int[n+1];
+		low = new int[n+1];
+	}
+
+	void get_edges(int m){
+		for(int i = 0; i<m; i++){
+			int u,v;
+			cin>>u>>v;
+			u--;v--;
+			adj[u].PB(v);
+			adj[v].PB(u);
+		}
+	}
+	void dfs(int i, int p = -1) {
+		vis[i] = true;
+		tin[i] = low[i] = timer++;
+		for (int x : adj[i]) {
+			if (x == p) continue;
+			if (vis[x]) {
+				low[i] = min(low[i], tin[x]);
+			} else {
+				dfs(x, i);
+				low[i] = min(low[i], low[x]);
+				if (low[x] > tin[i])
+					is_bridge(i, x);//i-x is a bridge
+			}
+		}
+	}
+
+	void find_bridges(){
+		timer = 0;
+		fill(vis,vis+n+1,false);
+		fill(tin,tin+n+1,-1);
+		fill(low,low+n+1,-1);
+		for (int i = 0; i < n; ++i) {
+			if (!vis[i])
+				dfs(i);
+		}
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_bridges--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

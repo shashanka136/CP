@@ -1,0 +1,58 @@
+<snippet>
+	<content><![CDATA[
+struct seive{
+	int* a;
+	int n;
+	seive(int m): n(m+1){
+		a = new int[n];
+		iota(a,a+n,0);
+		a[0] = 0;//although not defined for 0
+		a[1] = 1;
+		for(int i=2;i<n;i++){
+			if(a[i]!=i) continue;
+			for(int j=2*i;j <n;j+=i){
+				if(a[j] != j) continue;
+				a[j] = i;
+			}
+		}
+	}
+	void get_prime_factors(vector<int> &v, int x){
+		v.clear();
+		while(x > 1){
+			v.PB(a[x]);
+			x /= a[x];
+		}
+		return;
+	}
+
+	void get_prime_and_counts(vector<pair<int,int>> &v, int x){
+		v.clear();
+		while(x > 1){
+			int cr = a[x];
+			int cnt = 0;
+			while(a[x] == cr){
+				cnt++;
+				x /= cr;
+			}
+			v.PB(MP(cr,cnt));
+		}
+	}
+	void get_prime_counts(vector<int> &v, int x){
+		v.clear();
+		while(x > 1){
+			int cr = a[x];
+			int cnt = 0;
+			while(a[x] == cr){
+				cnt++;
+				x /= cr;
+			}
+			v.PB(cnt);
+		}
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_seive--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
