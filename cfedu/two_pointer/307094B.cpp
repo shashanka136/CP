@@ -51,7 +51,7 @@ void solve(){
 		while(l <= r && cr > s){
 			cr -= a[l]; l++;
 		}
-		ans += r-l+1;
+		ans += 1ll*(r-l+1)*(r-l+2)/2;
 		r++;
 	}
 	cout<<ans<<endl;

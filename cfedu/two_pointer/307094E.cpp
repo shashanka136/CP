@@ -37,21 +37,23 @@ const ll mod = 998244353;
 
 //
 const int N = 1e5+4;
-int n,a[N];
+int n,w[N],c[N];
 ll s;
-ll cr;
-ll ans = 0;
+ll cr,crc;
+ll ans = -1;
 void solve(){
 	cin>>n>>s;
-	INP(a,n);
+	INP(w,n);
+	INP(c,n);
 	int l=0,r=0;
-	cr = 0;
+	cr = 0,crc=0;
 	while(r<n){
-		cr += a[r];
+		cr += w[r];
+		crc += c[r];
 		while(l <= r && cr > s){
-			cr -= a[l]; l++;
+			cr -= w[l], crc -= c[l]; l++;
 		}
-		ans += r-l+1;
+		ans = max(ans, crc);
 		r++;
 	}
 	cout<<ans<<endl;

@@ -37,24 +37,38 @@ const ll mod = 998244353;
 
 //
 const int N = 1e5+4;
-int n,a[N];
-ll s;
-ll cr;
-ll ans = 0;
+int n[4],a[4][N],ind[4],ord[4],ans[4];
+int mn = 1e6;
+
+bool cmp(const int &i, const int &j){
+	return (a[i][ind[i]] < a[j][ind[j]]) || (a[i][ind[i]] == a[j][ind[j]] && i < j);
+}
+
 void solve(){
-	cin>>n>>s;
-	INP(a,n);
-	int l=0,r=0;
-	cr = 0;
-	while(r<n){
-		cr += a[r];
-		while(l <= r && cr > s){
-			cr -= a[l]; l++;
-		}
-		ans += r-l+1;
-		r++;
+	for(int j =0; j<4; j++){
+		cin>>n[j];
+		INP(a[j],n[j]);
+		sort(a[j],a[j]+n[j]);
 	}
-	cout<<ans<<endl;
+	fill(ind,ind+4,0);
+	function<bool(void)> inrange = [&](){
+		for(int i =0; i<4; i++){
+			if(ind[i] >= n[i]) return false;
+		}
+		return true;
+	};
+	iota(ord,ord+4,0);
+	while(inrange()){
+		sort(ord,ord+4, cmp);
+		if(a[ord[3]][ind[ord[3]]] - a[ord[0]][ind[ord[0]]] < mn){
+			mn = a[ord[3]][ind[ord[3]]] - a[ord[0]][ind[ord[0]]];
+			for(int i=0; i<4; i++) ans[i] = a[i][ind[i]];
+		}
+		ind[ord[0]]++;	
+	}
+	for(int i =0; i<4; i++){
+		cout<<ans[i]<<" ";
+	}cout<<endl;
 }
 
 int main(){

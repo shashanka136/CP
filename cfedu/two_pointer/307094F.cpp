@@ -37,19 +37,23 @@ const ll mod = 998244353;
 
 //
 const int N = 1e5+4;
-int n,a[N];
-ll s;
-ll cr;
+int n,m;
+int cnt[26];
+string s,tmp;
 ll ans = 0;
 void solve(){
-	cin>>n>>s;
-	INP(a,n);
+	cin>>n>>m;
+	cin>>s>>tmp;
+	fill(cnt,cnt+26,0);
+	for(int i =0; i<m; i++){
+		cnt[tmp[i]-'a']++;
+	}
+	ans = 0;
 	int l=0,r=0;
-	cr = 0;
 	while(r<n){
-		cr += a[r];
-		while(l <= r && cr > s){
-			cr -= a[l]; l++;
+		cnt[s[r]-'a']--;
+		while(l <= r && cnt[s[r]-'a'] < 0){
+			cnt[s[l]-'a']++; l++;
 		}
 		ans += r-l+1;
 		r++;

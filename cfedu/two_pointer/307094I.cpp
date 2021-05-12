@@ -31,29 +31,82 @@ typedef vector<vpl> vvpl;	typedef vector<vpi> vvpi;
 #define f(i,j,k,l) for(int i =(int)j; i!=(int)k; i = i + l) 
 #define INP(v,n) f(i,0,n,1) cin>>v[i];
 #define OUT(v,n) f(i,0,n,1){ cout<<v[i]<<" ";}cout<<endl;
-#define endl '\n'
+// #define endl '\n'
 #define all(v) v.begin(), v.end()
 const ll mod = 998244353;
 
 //
 const int N = 1e5+4;
-int n,a[N];
-ll s;
-ll cr;
-ll ans = 0;
+const int M = 1e3+15;
+
+template <typename bit>
+struct stk {
+	stack<int> st;
+	stack<bit> stsum;
+	stk(){
+		bit temp = 0;
+		temp.set(0);
+		stsum.push(temp);
+	}
+	void push(int x){
+		st.push(x);
+		bit temp = stsum.top();
+		for(int i = M-x-1; i>=0; i--){
+			if(temp.test(i)) temp.set(i+x);
+		}
+		stsum.push(temp);
+	}
+	int pop(){
+		int x = st.top();
+		st.pop();
+		stsum.pop();
+		return x;
+	}
+	inline bool empty(){
+		return st.empty();
+	}
+	
+};
+stk<bitset<M>> s1, s2;
+int n,s;
+int a[N];
+int cr,sum;
+int ans = N;
 void solve(){
 	cin>>n>>s;
 	INP(a,n);
 	int l=0,r=0;
-	cr = 0;
-	while(r<n){
-		cr += a[r];
-		while(l <= r && cr > s){
-			cr -= a[l]; l++;
+	cr =0;sum = 0;
+	function<bool(void)> rem = [&](){
+		if(s1.empty()){
+			while(!s2.empty()){
+				s1.push(s2.pop());
+			}
 		}
-		ans += r-l+1;
+		s1.pop();
+		return true;
+	};
+	function<bool(void)> good = [&](){
+		bitset<M> temp1= s1.stsum.top(); 
+		bitset<M> temp2= s2.stsum.top(); 
+		for(int i=0; i<=s;i++){
+			if(temp1.test(i) && temp2.test(s-i)) return true;
+		}
+		return false;
+	};
+	while(r<n){
+		s2.push(a[r]);
+		while(l <=r && rem() && good()){
+			l++;
+		}
+		if(l <= r) s1.push(a[l]);
+		if(good()){
+			// trace(l,r);
+			ans =min(ans, r-l+1);
+		}
 		r++;
 	}
+	if(ans == N) ans = -1;
 	cout<<ans<<endl;
 }
 

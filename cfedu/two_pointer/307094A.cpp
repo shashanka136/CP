@@ -36,25 +36,54 @@ typedef vector<vpl> vvpl;	typedef vector<vpi> vvpi;
 const ll mod = 998244353;
 
 //
-const int N = 1e5+4;
-int n,a[N];
-ll s;
-ll cr;
-ll ans = 0;
+const int N = 1e3+5;
+int n;
+ll p,sum,ans,cr;
+ll mn1,mn2;
+int a[N],ind1,ind2;
 void solve(){
-	cin>>n>>s;
+	cin>>n>>p;
 	INP(a,n);
+	sum = 0;
+	for(int i =0; i<n; i++){
+		sum += a[i];
+	}
+	ans = 0;
+	ans += 1ll*n*(p/sum);
+	p %= sum;
+	// trace(ans,p);
 	int l=0,r=0;
 	cr = 0;
+	ind1 = -1;
+	mn1 = -1;
 	while(r<n){
 		cr += a[r];
-		while(l <= r && cr > s){
+		while(l <= r && cr > sum-p){
 			cr -= a[l]; l++;
 		}
-		ans += r-l+1;
+		if(r-l+1 > mn1){
+			mn1 = r-l+1;
+			ind1 = (r+1)%n;
+		}
 		r++;
 	}
-	cout<<ans<<endl;
+	// trace(mn1,ind1);
+	mn1 = n-mn1;
+	cr = 0;
+	l = r = 0;
+	while(r<n){
+		cr += a[r];
+		while(l <= r && cr-a[l] >= p){
+			cr -= a[l]; l++;
+		}
+		if(cr >= p && r-l+1 < mn1){
+			mn1 = r-l+1;
+			ind1 = l;
+		}
+		r++;
+	}
+	// trace(mn1, ind1);
+	cout<<ind1+1<<" "<<ans+mn1<<endl;
 }
 
 int main(){

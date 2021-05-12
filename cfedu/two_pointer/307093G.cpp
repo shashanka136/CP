@@ -37,23 +37,60 @@ const ll mod = 998244353;
 
 //
 const int N = 1e5+4;
-int n,a[N];
-ll s;
-ll cr;
-ll ans = 0;
+ll n,a[N];
+
+struct stk {
+	stack<ll> st, stgcd;
+	stk(){
+		stgcd.push(0);
+	}
+	void push(ll x){
+		st.push(x);
+		stgcd.push(__gcd(stgcd.top(), x));
+	}
+	ll pop(){
+		ll x = st.top();
+		st.pop();
+		stgcd.pop();
+		return x;
+	}
+	inline bool empty(){
+		return st.empty();
+	}
+	inline ll gcd(){
+		return stgcd.top();
+	}
+};
+stk s1,s2;
+int ans = 1e6;
 void solve(){
-	cin>>n>>s;
+	cin>>n;
 	INP(a,n);
 	int l=0,r=0;
-	cr = 0;
-	while(r<n){
-		cr += a[r];
-		while(l <= r && cr > s){
-			cr -= a[l]; l++;
+	function<bool(void)> rem = [&](){
+		if(s1.empty()){
+			while(!s2.empty()){
+				s1.push(s2.pop());
+			}
 		}
-		ans += r-l+1;
+		s1.pop();
+		return true;
+	};
+	function<bool(void)> good = [&](){
+		if(s1.gcd() == 0) return s2.gcd() == 1;
+		if(__gcd(s1.gcd(), s2.gcd()) == 1) return true;
+		return false;
+	};
+	while(r<n){
+		s2.push(a[r]);
+		while(l <= r && rem() && good()){
+			l++;
+		}
+		if(l <= r) s1.push(a[l]);
+		if(good()) ans =min(ans, r-l+1);
 		r++;
 	}
+	if(ans == ll(1e6)) ans = -1;
 	cout<<ans<<endl;
 }
 

@@ -48,10 +48,10 @@ void solve(){
 	cr = 0;
 	while(r<n){
 		cr += a[r];
-		while(l <= r && cr > s){
+		while(l <= r && cr-a[l] >= s){
 			cr -= a[l]; l++;
 		}
-		ans += r-l+1;
+		if(cr >= s) ans += l+1;
 		r++;
 	}
 	cout<<ans<<endl;

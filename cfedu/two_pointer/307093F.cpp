@@ -37,19 +37,59 @@ const ll mod = 998244353;
 
 //
 const int N = 1e5+4;
-int n,a[N];
-ll s;
-ll cr;
+ll n,a[N];
+
+struct stk {
+	stack<ll> st, stmax, stmin;
+	stk(){
+		stmax.push(LLONG_MIN);
+		stmin.push(LLONG_MAX);
+	}
+	void push(ll x){
+		st.push(x);
+		stmax.push(max(stmax.top(), x));
+		stmin.push(min(stmin.top(), x));
+	}
+	ll pop(){
+		ll x = st.top();
+		st.pop();
+		stmax.pop();
+		stmin.pop();
+		return x;
+	}
+	inline bool empty(){
+		return st.empty();
+	}
+	inline ll mx(){
+		return stmax.top();
+	}
+	inline ll mn(){
+		return stmin.top();
+	}
+};
+ll k;
+stk s1,s2;
 ll ans = 0;
 void solve(){
-	cin>>n>>s;
+	cin>>n>>k;
 	INP(a,n);
 	int l=0,r=0;
-	cr = 0;
+	function<void(void)> rem = [&](){
+		if(s1.empty()){
+			while(!s2.empty()){
+				s1.push(s2.pop());
+			}
+		}
+		s1.pop();
+	};
+	function<bool(void)> good = [&](){
+		if(max(s1.mx(),s2.mx()) - min(s1.mn(), s2.mn()) <= k) return true;
+		return false;
+	};
 	while(r<n){
-		cr += a[r];
-		while(l <= r && cr > s){
-			cr -= a[l]; l++;
+		s2.push(a[r]);
+		while(l <= r && !good()){
+			rem(); l++;
 		}
 		ans += r-l+1;
 		r++;

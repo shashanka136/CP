@@ -37,21 +37,35 @@ const ll mod = 998244353;
 
 //
 const int N = 1e5+4;
-int n,a[N];
-ll s;
-ll cr;
-ll ans = 0;
+int n;
+ll c,crc;
+string s;
+int cnt[26];
+int ans = 0,cr;
 void solve(){
-	cin>>n>>s;
-	INP(a,n);
+	cin>>n>>c;
+	cin>>s;
 	int l=0,r=0;
 	cr = 0;
-	while(r<n){
-		cr += a[r];
-		while(l <= r && cr > s){
-			cr -= a[l]; l++;
+	crc = 0;
+	function<void(char)> add = [&](char ch){
+		cnt[ch-'a']++;
+		if(ch == 'b'){
+			crc += cnt[0];
 		}
-		ans += r-l+1;
+	};
+	function<void(char)> rem = [&](char ch){
+		cnt[ch-'a']--;
+		if(ch == 'a'){
+			crc -= cnt[1];
+		}
+	};
+	while(r<n){
+		add(s[r]);
+		while(l <= r && crc > c){
+			rem(s[l]); l++;
+		}
+		ans = max(ans, r-l+1);
 		r++;
 	}
 	cout<<ans<<endl;

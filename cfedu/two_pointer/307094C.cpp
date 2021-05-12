@@ -36,22 +36,19 @@ typedef vector<vpl> vvpl;	typedef vector<vpi> vvpi;
 const ll mod = 998244353;
 
 //
-const int N = 1e5+4;
-int n,a[N];
-ll s;
-ll cr;
+const int N = 3e5+4;
+int n,d[N];
+int mn;
 ll ans = 0;
 void solve(){
-	cin>>n>>s;
-	INP(a,n);
+	cin>>n>>mn;
+	INP(d,n);
 	int l=0,r=0;
-	cr = 0;
 	while(r<n){
-		cr += a[r];
-		while(l <= r && cr > s){
-			cr -= a[l]; l++;
+		while(l <= r && d[r]-d[l+1] > mn){
+			l++;
 		}
-		ans += r-l+1;
+		if(d[r] - d[l] > mn) ans += l+1;
 		r++;
 	}
 	cout<<ans<<endl;
