@@ -1,0 +1,3 @@
+[
+	{ "keys": ["ctrl+lshift+a"], "command": "new_snippet" }
+]

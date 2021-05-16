@@ -1,0 +1,873 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"lst",
+				"lstx"
+			],
+			[
+				"get",
+				"get_val"
+			],
+			[
+				"_conve",
+				"_convex_hull_dp_arbitrary_insertion--\tCONVEX_HULL_TRICK_arbitrary_insertion"
+			],
+			[
+				"dfs",
+				"dfs_tot"
+			],
+			[
+				"ad",
+				"add_edge"
+			],
+			[
+				"_h",
+				"_hld_edge_query--\thld_single_segtree_edge_query"
+			],
+			[
+				"_s",
+				"_start--\tStart"
+			],
+			[
+				"_seg",
+				"_segtree_iterative--\tITERATIVE_SEGTREE"
+			],
+			[
+				"ta",
+				"trace"
+			],
+			[
+				"st",
+				"start"
+			],
+			[
+				"EB",
+				"emplace_back"
+			],
+			[
+				"_la",
+				"_last--\tLAST"
+			],
+			[
+				"_",
+				"_pow--\tpower"
+			],
+			[
+				"add",
+				"addeq"
+			],
+			[
+				"cn",
+				"const"
+			],
+			[
+				"path",
+				"path_query"
+			],
+			[
+				"pat",
+				"path_query"
+			],
+			[
+				"ty",
+				"type"
+			],
+			[
+				"eb",
+				"EB"
+			],
+			[
+				"par",
+				"parent"
+			],
+			[
+				"hevy",
+				"heavyin"
+			],
+			[
+				"query",
+				"queryup"
+			],
+			[
+				"L",
+				"Link"
+			],
+			[
+				"Link",
+				"Linkcut"
+			],
+			[
+				"_l",
+				"_last--\tLAST"
+			],
+			[
+				"_se",
+				"_segtree_recursive--\tSEGTREE"
+			],
+			[
+				"g",
+				"get_st"
+			],
+			[
+				"con",
+				"convex_hull_dp_arbitrary_insertion--\tCONVEX_HULL_TRICK_arbitrary_insertion"
+			],
+			[
+				"ADD",
+				"add_line"
+			],
+			[
+				"tra",
+				"TRACE"
+			],
+			[
+				"co",
+				"convex_hull_trick--\tCONVEX_HULL_TRICK"
+			],
+			[
+				"opt",
+				"optr"
+			],
+			[
+				"inv",
+				"invpows"
+			],
+			[
+				"pc",
+				"pcinv"
+			],
+			[
+				"mu",
+				"multiply"
+			],
+			[
+				"multip",
+				"multiply_mem"
+			],
+			[
+				"bis",
+				"bitset"
+			],
+			[
+				"trace",
+				"TRACE"
+			],
+			[
+				"der",
+				"deriv"
+			],
+			[
+				"tem",
+				"teminv"
+			],
+			[
+				"ans",
+				"ansnm"
+			],
+			[
+				"ma",
+				"maxflow"
+			],
+			[
+				"res",
+				"resize"
+			],
+			[
+				"l",
+				"l"
+			],
+			[
+				"ini",
+				"ini_se"
+			],
+			[
+				"p",
+				"pragma"
+			],
+			[
+				"tr",
+				"trie--\ttrie"
+			],
+			[
+				"stm",
+				"stpmn"
+			],
+			[
+				"suff",
+				"suff_array--\tSUFFIXARRAY"
+			],
+			[
+				"strt",
+				"start--\tStart"
+			],
+			[
+				"sa",
+				"start--\tStart"
+			],
+			[
+				"pop",
+				"pop_front"
+			],
+			[
+				"find",
+				"find_components"
+			],
+			[
+				"bri",
+				"bridge_components--\tBRIDGE-COMPONENTS"
+			],
+			[
+				"push_",
+				"push_back"
+			],
+			[
+				"cr",
+				"crdoc"
+			],
+			[
+				"ou",
+				"OUT"
+			],
+			[
+				"tre",
+				"trees"
+			],
+			[
+				"po",
+				"pow--\tpower"
+			],
+			[
+				"pri",
+				"get_prime_counts"
+			],
+			[
+				"fact",
+				"factorial"
+			],
+			[
+				"sei",
+				"seive"
+			],
+			[
+				"be",
+				"bef"
+			],
+			[
+				"sqr",
+				"sqrtdecomp"
+			],
+			[
+				"sta",
+				"state"
+			],
+			[
+				"stR",
+				"start--\tStart"
+			],
+			[
+				"bit",
+				"bitset"
+			],
+			[
+				"w",
+				"winv"
+			],
+			[
+				"poly",
+				"polym"
+			],
+			[
+				"num",
+				"numfn"
+			],
+			[
+				"trac",
+				"TRACE"
+			],
+			[
+				"m",
+				"Mod"
+			],
+			[
+				"root",
+				"root_pw"
+			],
+			[
+				"skellam",
+				"skellam_expected"
+			],
+			[
+				"as",
+				"astype"
+			],
+			[
+				"gaussian",
+				"gaussian_stat"
+			],
+			[
+				"gau",
+				"gaussian_stat"
+			],
+			[
+				"beg",
+				"begin"
+			],
+			[
+				"u",
+				"u"
+			],
+			[
+				"pop_",
+				"pop_back"
+			],
+			[
+				"mod",
+				"MOD"
+			],
+			[
+				"val",
+				"val_to_in"
+			],
+			[
+				"dif",
+				"diff2"
+			],
+			[
+				"check",
+				"checksum"
+			],
+			[
+				"noi",
+				"noise_added1"
+			],
+			[
+				"noise",
+				"noise_added2"
+			],
+			[
+				"conn",
+				"conn_cost"
+			],
+			[
+				"IA",
+				"IA_single"
+			],
+			[
+				"para",
+				"para_list1"
+			],
+			[
+				"outpu",
+				"output_array"
+			],
+			[
+				"dict",
+				"dict_xy"
+			],
+			[
+				"diff",
+				"diffx"
+			],
+			[
+				"avg",
+				"avg_count"
+			],
+			[
+				"max",
+				"max_intensity"
+			],
+			[
+				"cre",
+				"createTree1"
+			],
+			[
+				"col",
+				"1-col"
+			],
+			[
+				"fil",
+				"file"
+			],
+			[
+				"rand",
+				"randint"
+			],
+			[
+				"vt",
+				"vtpre"
+			],
+			[
+				"calc",
+				"calc2"
+			],
+			[
+				"ran",
+				"rangeQuerymn"
+			],
+			[
+				"segtr",
+				"segtree"
+			],
+			[
+				"push",
+				"push_h"
+			],
+			[
+				"k",
+				"kthsmall"
+			],
+			[
+				"cou",
+				"count"
+			],
+			[
+				"a",
+				"array1"
+			],
+			[
+				"sum",
+				"summax"
+			],
+			[
+				"segt",
+				"segtreemax"
+			],
+			[
+				"su",
+				"summax"
+			],
+			[
+				"creat",
+				"createTreemn"
+			],
+			[
+				"cret",
+				"createTree"
+			],
+			[
+				"last",
+				"lastocur9"
+			],
+			[
+				"hs",
+				"hash_pll"
+			],
+			[
+				"pre",
+				"prehashes"
+			],
+			[
+				"re",
+				"resize"
+			],
+			[
+				"count",
+				"3-count"
+			],
+			[
+				"e",
+				"endl"
+			],
+			[
+				"range",
+				"rangeQuerylazy"
+			],
+			[
+				"g3",
+				"g3used"
+			],
+			[
+				"order",
+				"order_of_key"
+			],
+			[
+				"CBR",
+				"CBRdataRate"
+			],
+			[
+				"size",
+				"sizeset2\tlist ⟠"
+			],
+			[
+				"Dia",
+				"Diag1\tlist ⟠"
+			],
+			[
+				"Diag",
+				"Diag4\tlist ⟠"
+			],
+			[
+				"fmne",
+				"fmneq2\tBoolRef | Probe ⟠"
+			],
+			[
+				"A",
+				"And\tfunction ⟠"
+			],
+			[
+				"var",
+				"var_counter\tint ⟠"
+			],
+			[
+				"q",
+				"q_update\tBoolRef | Probe ⟠"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "BuildLinux.sublime-build",
+			"settings":
+			{
+				"buffer_size": 681,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Snippet: ",
+				"Snippet: PREFIX_FUNC"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"conf",
+				"Preferences: Package Control Settings – Default"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			],
+			[
+				"sn",
+				"Snippet: Namespace"
+			],
+			[
+				"Install Package",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Install Package Control"
+			],
+			[
+				"pack",
+				"Install Package Control"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/shashank/Desktop/SEGDIR.cpp",
+		"/home/shashank/Desktop/CP/sem5/375B.cpp",
+		"/home/shashank/Desktop/Lab7/lab7.cpp",
+		"/home/shashank/Desktop/Sem5/CS 333/intro-code/disk.c",
+		"/home/shashank/Desktop/Sem5/CS 333/intro-code/shashank_cpuinfo.txt",
+		"/home/shashank/Desktop/Sem5/CS 333/intro-code/disk1.c",
+		"/home/shashank/Desktop/CP/inout/out.txt",
+		"/home/shashank/Desktop/CP/inout/in.txt",
+		"/home/shashank/Desktop/CP/sem5/165C.cpp",
+		"/media/shashank/Seagate Backup Plus Drive/Sem4/CS 252/Lab7/lab7.cpp",
+		"/home/shashank/Desktop/CP/DEshaw/leet.cpp",
+		"/home/shashank/Desktop/CP/ladder4/1393D.cpp",
+		"/home/shashank/Desktop/CP/ladder4/1393C.cpp",
+		"/home/shashank/Desktop/CP/ladder4/1393B.cpp",
+		"/home/shashank/Desktop/CP/ladder4/322B.cpp",
+		"/home/shashank/Desktop/CP/ladder4/343B.cpp",
+		"/home/shashank/Resume/tools/2_page.tex",
+		"/home/shashank/Desktop/CP/google/sol.cpp",
+		"/home/shashank/Desktop/CP/DEshaw/1092F.cpp",
+		"/home/shashank/Desktop/CP/DEshaw/tower.cpp",
+		"/home/shashank/Desktop/CP/DEshaw/sample_input.txt",
+		"/home/shashank/Desktop/CP/nthroot.cpp",
+		"/home/shashank/Desktop/CP/DEshaw/IEMCO01.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1290A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1198A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1188A1.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/788A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/763A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/603A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/605A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/607A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/704A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1338E.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1338C.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1388D.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1338A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1338B.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/601A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/559A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/453A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/377A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/346A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/343A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/235A.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1272D.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1256D.cpp",
+		"/home/shashank/Desktop/CP/112summ20.cpp/1196D1.cpp",
+		"/home/shashank/Desktop/CP/111summ20/1186D.cpp",
+		"/home/shashank/Desktop/CP/111summ20/340D.cpp",
+		"/home/shashank/Desktop/CP/111summ20/159D.cpp",
+		"/home/shashank/Desktop/CP/111summ20/1389E.cpp",
+		"/home/shashank/Desktop/CP/111summ20/1389D.cpp",
+		"/home/shashank/Desktop/CP/111summ20/1304C.cpp",
+		"/home/shashank/Desktop/CP/111summ20/1215C.cpp",
+		"/home/shashank/Desktop/CP/111summ20/1166C.cpp",
+		"/home/shashank/.config/sublime-text-3/Packages/User/Start.sublime-snippet",
+		"/home/shashank/Desktop/CP/67summ20/472D.cpp",
+		"/home/shashank/Desktop/CP/111summ20/1110C.cpp",
+		"/home/shashank/Desktop/CP/110summ20/1101C.cpp",
+		"/home/shashank/Desktop/CP/111summ20/Terminus",
+		"/home/shashank/Desktop/CP/111summ20/Open",
+		"/home/shashank/Desktop/CP/111summ20/Dafault",
+		"/home/shashank/Desktop/CP/111summ20/Shell",
+		"/home/shashank/Desktop/CP/111summ20/in",
+		"/home/shashank/Desktop/CP/111summ20/Tab",
+		"/home/shashank/.config/sublime-text-3/Packages/User/BuildLinux.sublime-build",
+		"/home/shashank/Desktop/CP/110summ20/812C.cpp",
+		"/home/shashank/Desktop/CP/110summ20/743C.cpp",
+		"/home/shashank/Desktop/CP/110summ20/550C.cpp",
+		"/home/shashank/Desktop/CP/110summ20/545C.cpp",
+		"/home/shashank/Desktop/CP/110summ20/527C.cpp",
+		"/home/shashank/Desktop/CP/110summ20/496C.cpp",
+		"/home/shashank/Desktop/CP/110summ20/282C.cpp",
+		"/home/shashank/Desktop/CP/109summ20/ADAORANG_mathews.cpp",
+		"/etc/security/limits.conf",
+		"/home/shashank/Desktop/CP/hackercup_2020/qd2.cpp",
+		"/home/shashank/.config/sublime-text-3/Packages/User/LAST.sublime-snippet",
+		"/home/shashank/Resume/resumeCompiler.sh",
+		"/home/shashank/.config/sublime-text-3/Packages/User/LCA.sublime-snippet",
+		"/home/shashank/Desktop/CP/109summ20/Triplets with Sum between given range.cpp",
+		"/home/shashank/Desktop/CP/109summ20/ADAORANG.cpp",
+		"/home/shashank/Desktop/CP/109summ20/1301B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/1278B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/1236B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/1208B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/1201B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/1180B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/1114B.cpp",
+		"/home/shashank/.config/sublime-text-3/Packages/Package Control/Package Control.sublime-settings",
+		"/home/shashank/.config/sublime-text-3/Packages/User/power.sublime-snippet",
+		"/home/shashank/Desktop/CP/109summ20/742B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/702B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/584B.cpp",
+		"/home/shashank/PT Cell/2 page.tex",
+		"/home/shashank/Desktop/CP/109summ20/580B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/510B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/460B.cpp",
+		"/home/shashank/Desktop/CP/109summ20/557E.cpp",
+		"/home/shashank/Desktop/CP/108summ20/165B.cpp",
+		"/home/shashank/Desktop/CP/108summ20/DISQUERY_mathews.cpp",
+		"/home/shashank/.config/sublime-text-3/Packages/User/hld_single_segtree_edge_query.sublime-snippet",
+		"/home/shashank/.config/sublime-text-3/Packages/User/heavy_light_decomposition_edge_query.sublime-snippet",
+		"/home/shashank/Desktop/CP/108summ20/1300C.cpp",
+		"/home/shashank/Desktop/CP/108summ20/1264A.cpp",
+		"/home/shashank/Desktop/CP/108summ20/DISQUERY.cpp",
+		"/home/shashank/Desktop/CP/108summ20/1300E.cpp",
+		"/home/shashank/Desktop/CP/108summ20/1300D.cpp",
+		"/home/shashank/Desktop/CP/108summ20/1300B.cpp",
+		"/home/shashank/Desktop/CP/108summ20/1300A.cpp",
+		"/home/shashank/Desktop/CP/108summ20/1242A.cpp",
+		"/home/shashank/Desktop/CP/108summ20/1179A.cpp",
+		"/home/shashank/Desktop/CP/108summ20/1010A.cpp",
+		"/home/shashank/Desktop/CP/108summ20/997A.cpp",
+		"/home/shashank/Desktop/CP/108summ20/891A.cpp",
+		"/home/shashank/Desktop/CP/107summ20/614A.cpp",
+		"/home/shashank/Desktop/CP/107summ20/771A.cpp",
+		"/home/shashank/Desktop/CP/107summ20/687A.cpp",
+		"/home/shashank/Desktop/CP/107summ20/587A.cpp",
+		"/home/shashank/Desktop/CP/107summ20/576A.cpp",
+		"/home/shashank/Desktop/CP/107summ20/468A.cpp",
+		"/home/shashank/Desktop/CP/107summ20/455A.cpp",
+		"/home/shashank/Desktop/CP/107summ20/414A.cpp",
+		"/home/shashank/Desktop/CP/hackercup_2020/timber.cpp",
+		"/home/shashank/Desktop/CP/hackercup_2020/qd2infin.txt",
+		"/home/shashank/PT Cell/1 page.tex",
+		"/home/shashank/Desktop/CP/hackercup_2020/qd1.cpp",
+		"/home/shashank/Desktop/CP/hackercup_2020/qd2out.txt",
+		"/home/shashank/Desktop/CP/hackercup_2020/qd2in.txt"
+	],
+	"find":
+	{
+		"height": 37.0
+	},
+	"find_in_files":
+	{
+		"height": 125.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "BuildLinux.sublime-build",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 681,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 37.0
+	},
+	"input":
+	{
+		"height": 47.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/BuildLinux.sublime-build",
+	"project": "BuildLinux.sublime-project",
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 50.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

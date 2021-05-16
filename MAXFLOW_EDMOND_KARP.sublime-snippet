@@ -5,7 +5,8 @@ struct edkarp {
 	vector<vector<int>> cap;
 	vector<vector<int>> adj;
 	int n;
-	void init(int n): n(n) {
+	void init(int _n){
+		n = _n;
 		cap.assign(n, vector<int>(n, 0));
 		adj.assign(n, vector<int>(0));
 	}

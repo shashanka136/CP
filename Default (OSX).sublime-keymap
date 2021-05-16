@@ -1,0 +1,3 @@
+[
+	{ "keys": ["ctrl+g"], "command": "new_snippet" }
+]
