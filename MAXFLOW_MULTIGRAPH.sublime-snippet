@@ -1,0 +1,75 @@
+<snippet>
+	<content><![CDATA[
+struct edge {
+	int u, v,cap;
+	edge(){}
+	edge(int _u, int _v, int _cap): u(_u), v(_v), cap(_cap) {}
+	int get(int t) { return t ^ u ^ v;}
+};
+const int inf = 1e9;
+struct edkarp {
+	vector<edge> edges;
+	vector<vector<int>> adj;
+	int n;
+	void init(int _n){
+		n = _n;
+		adj.assign(n, vector<int>(0));
+	}
+
+	inline int comp(int i){ return i^1;}
+
+	inline int par(int i, int ed){ return edges[ed].get(i);}
+
+	void add(int u, int v, int c) {
+		adj[u].emplace_back(edges.size());
+		edges.emplace_back(u,v,c);
+		adj[v].emplace_back(edges.size());
+		edges.emplace_back(u,v,0);
+	}
+	int bfs(int st, int tar, vector<int> &p) {
+		p.assign(n,-1);
+		p[st] = -2;
+		queue<pair<int, int>> q;
+		q.push(MP(st, inf));
+		while (!q.empty()) {
+			int i = q.front().F, flow = q.front().S;
+			q.pop();
+			for (auto &x : adj[i]) {
+				if (p[par(i,x)] == -1 && edges[x].cap) {
+					p[par(i,x)] = x;
+					int nf = min(flow, edges[x].cap);
+					if (par(i,x) == tar) {
+						return nf;
+					}
+					q.push(MP(par(i,x), nf));
+				}
+			}
+		}
+		return 0;
+	}
+
+	int maxflow(int st, int tar) {
+		// if there is need to upgrade number of nodes in graph
+		vector<int> p(n);//num is the number of nodes
+		int flow = 0;
+		int nf;//new flow
+
+		while (nf = bfs(st, tar, p)) {
+			flow += nf;
+			int cr = tar;
+			while (cr != st) {
+				edges[p[cr]].cap -= nf;
+				edges[comp(p[cr])].cap += nf;
+				cr = par(cr,p[cr]);
+			}
+		}
+
+		return flow;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_maxflow_multigraph--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
