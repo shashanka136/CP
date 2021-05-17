@@ -1,0 +1,84 @@
+<snippet>
+	<content><![CDATA[
+//simpler case
+const int inf = 1e9;
+template <int inf>
+struct mincost {
+	vector<vector<int>> cap;
+	vector<vector<int>> adj;
+	vector<vector<int>> cost;
+	int n;
+	void init(int _n){
+		n = _n;
+		cap.assign(n, vector<int>(n, 0));
+		cost.assign(n, vector<int>(n, 0));
+		adj.assign(n, vector<int>(0));
+	}
+
+	void add(int u, int v, int co, int capac) {//co is cost, capac is capacity
+		adj[u].emplace_back(v);
+		adj[v].emplace_back(u);
+		cap[u][v] = capac;
+		cost[u][v] = co;
+		cost[v][u] = -co;
+	}
+	void shortest_path(int v, vector<int> &d, vector<int> &p) {
+		p.assign(n,-1);
+		d.assign(n,inf);
+		vector<bool> inq(n,false);
+		d[v] = 0;
+		queue<int> q;
+		q.push(v);
+		inq[v] = true;
+		while (!q.empty()) {
+			int i = q.front();
+			q.pop();
+			inq[i] = false;
+			for (auto &x : adj[i]) {
+				if (cap[i][x] && d[x] > d[i] + cost[i][x]) {
+					d[x] = d[i] + cost[i][x];
+ 					p[x] = i;
+					if(!inq[x]){
+						q.push(x);
+						inq[x] = true;
+					}
+				}
+			}
+		}
+	}
+
+	int mincostflow(int st, int tar, int k) {
+		// if there is need to upgrade number of nodes in graph
+		vector<int> p,d;//num is the number of nodes
+		int flow = 0, cost = 0;
+		int nf;//new flow
+
+		while(flow < k){
+			shortest_path(st, d,p);
+			if(d[tar] == inf) break;
+			nf = k-flow;
+			int cr = tar;
+			while(cr != st){
+				nf = min(nf, cap[p[cr]][cr]);
+				cr = p[cr];
+			}
+			flow += nf;
+			cost += nf*d[tar];
+			cr = tar;
+			while(cr != st){
+				cap[p[cr]][cr] -= nf;
+				cap[cr][p[cr]] += nf;
+				cr = p[cr];
+			}
+		}
+		if(flow < k) return -1;
+		return cost;
+	}
+};
+typedef mincost<inf> minfl;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_mincost_simplecase--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

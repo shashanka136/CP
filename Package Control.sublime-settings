@@ -1,0 +1,21 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"C Improved",
+		"C++ & C Single File Builder - Minghang Yang",
+		"C++ Snippets",
+		"C++ Starting Kit",
+		"Color Scheme - Chromodynamics",
+		"CUDA C++",
+		"JavaScript Patterns",
+		"Package Control",
+		"Python 3",
+		"Python Completions",
+		"Python Debugger",
+		"Terminus"
+	]
+}

@@ -1,0 +1,93 @@
+<snippet>
+	<content><![CDATA[
+struct edge {
+	int u, v,cost,cap;
+	edge(){}
+	edge(int _u, int _v, int _c, int _cap): u(_u), v(_v), cost(_c), cap(_cap) {}
+	int get(int t) { return t ^ u ^ v;}
+};
+const int inf = 1e9;
+template <class edge, int inf>
+class edkarp {
+public:
+	vector<edge> edges;
+	vector<vector<int>> adj;
+	int n;
+
+	void init(int _n){
+		n = _n;
+		adj.assign(n, vector<int>(0));
+	}
+
+	inline int comp(int i){ return i^1;}//compliment edge
+
+	inline int par(int i, int edge_num){ return edges[edge_num].get(i);}
+	
+	void add(int u, int v, int co, int capac) {//co is cost, capac is capacity
+		adj[u].emplace_back(edges.size());//adding an oriented edge
+		edges.emplace_back(u,v,co,capac);
+		adj[v].emplace_back(edges.size());
+		edges.emplace_back(u,v,-co,0);
+	}
+	void shortest_path(int v, vector<int> &d, vector<int> &p) {
+		p.assign(n,-1);//we will put edge number in p
+		d.assign(n,inf);
+		vector<bool> inq(n,false);
+		d[v] = 0;
+		queue<int> q;
+		q.push(v);
+		inq[v] = true;
+		while (!q.empty()) {
+			int i = q.front();
+			q.pop();
+			inq[i] = false;
+			for (auto &x : adj[i]) {
+				int u = par(i,x);
+				if (edges[x].cap && d[u] > d[i] + edges[x].cost) {
+					d[u] = d[i] + edges[x].cost;
+ 					p[u] = x;
+					if(!inq[u]){
+						q.push(u);
+						inq[u] = true;
+					}
+				}
+			}
+		}
+	}
+
+	int mincost(int st, int tar, int k = inf) {
+		// if there is need to upgrade number of nodes in graph
+		vector<int> p,d;//num is the number of nodes
+		int flow = 0, cost = 0;
+		int nf;//new flow
+
+		while(flow < k){
+			shortest_path(st, d,p);
+			if(d[tar] == inf) break;
+			nf = k-flow;
+			int cr = tar;
+			while(cr != st){
+				nf = min(nf, edges[p[cr]].cap);
+				cr = par(cr,p[cr]);
+			}
+			flow += nf;
+			cost += nf*d[tar];
+			cr = tar;
+			while(cr != st){
+				edges[p[cr]].cap -= nf;
+				edges[comp(p[cr])].cap += nf;
+				cr = par(cr,p[cr]);
+			}
+		}
+		// if(flow < k) return -1;
+		return cost;
+	}
+};
+typedef edkarp<edge,inf> minfl;
+//if you want to return mincost for maxflow change -1 to cost in mincost function
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_mincost_multigraph--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
