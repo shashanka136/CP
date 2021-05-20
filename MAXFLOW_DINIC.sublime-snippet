@@ -1,0 +1,84 @@
+<snippet>
+	<content><![CDATA[
+struct edge {
+	int u, v;
+	long long cap;
+	edge(int _u, int _v, long long cap): u(_u), v(_v), cap(cap) {}
+	int get(int t) { return t ^ u ^ v;}
+};
+
+struct dinic{
+	const long long inf = 1e18;
+	int n,st,tar;
+	vector<edge> edges;
+	vector<vector<int>> adj;
+	vector<int> lvl,from;
+
+	inline int comp(int i){ return i^1;}//compliment edge
+
+	inline int par(int i, int edge_num){ return edges[edge_num].get(i);}
+	
+	void init(int _n){
+		n = _n;
+		adj.assign(n, vector<int>(0));
+	}
+
+	void add(int u, int v, long long cap){
+		adj[u].push_back(edges.size());
+		edges.emplace_back(u,v,cap);
+		adj[v].push_back(edges.size());
+		edges.emplace_back(v,u,0);
+	}
+
+	void bfs(){
+		lvl.assign(n,-1);
+		lvl[st] = 0;
+		queue<int> q;
+		q.push(st);
+		while(!q.empty()){
+			int u = q.front();
+			q.pop();
+			for(int i : adj[u]){
+				if(lvl[par(u,i)] != -1 || edges[i].cap == 0) continue;
+				lvl[par(u,i)] = lvl[u] +1;
+				q.push(par(u,i));
+			}
+		}
+	}
+
+	int dfs(int u, long long mnflow){
+		if(u == tar) return mnflow;
+		for(int& i = from[u]; i < adj[u].size(); i++){
+			int v = par(u,adj[u][i]);
+			if(lvl[v] != lvl[u] +1 || edges[adj[u][i]].cap == 0) continue;
+			int ret = dfs(v,min(mnflow, edges[adj[u][i]].cap));
+			if(ret == 0) continue;
+			edges[adj[u][i]].cap -= ret;
+			edges[comp(adj[u][i])].cap += ret;
+			return ret;
+		}
+		return 0;
+	}
+
+	long long maxflow(int _st, int _tar){
+		st = _st;
+		tar = _tar;
+		long long flow = 0;
+		while(1){
+			bfs();
+			if(lvl[tar] == -1) break;
+			from.assign(n,0);
+			while(long long nf = dfs(st, inf)){
+				flow += nf;
+			}
+		}
+		return flow;
+	}
+};
+//takes O(E*sqrt(v)) for unit graph
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_maxflow_edmond_karp--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
