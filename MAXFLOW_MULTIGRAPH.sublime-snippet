@@ -24,7 +24,7 @@ struct edkarp {
 		adj[u].emplace_back(edges.size());
 		edges.emplace_back(u,v,c);
 		adj[v].emplace_back(edges.size());
-		edges.emplace_back(u,v,0);
+		edges.emplace_back(v,u,0);
 	}
 	int bfs(int st, int tar, vector<int> &p) {
 		p.assign(n,-1);

@@ -32,26 +32,19 @@ public:
 	void shortest_path(int v, vector<int> &d, vector<int> &p) {
 		p.assign(n,-1);//we will put edge number in p
 		d.assign(n,inf);
-		vector<bool> inq(n,false);
 		d[v] = 0;
-		queue<int> q;
-		q.push(v);
-		inq[v] = true;
-		while (!q.empty()) {
-			int i = q.front();
-			q.pop();
-			inq[i] = false;
-			for (auto &x : adj[i]) {
-				int u = par(i,x);
-				if (edges[x].cap && d[u] > d[i] + edges[x].cost) {
-					d[u] = d[i] + edges[x].cost;
- 					p[u] = x;
-					if(!inq[u]){
-						q.push(u);
-						inq[u] = true;
-					}
+		bool change = false;
+		for(int i =0 ; i<n-1; i++){
+			change = false;
+			for(int j = 0; j< edges.size(); j++){
+				if(d[edges[j].u] == inf || edges[j].cap == 0) continue;
+				if(d[edges[j].v] > d[edges[j].u] + edges[j].cost){
+					d[edges[j].v] = d[edges[j].u] + edges[j].cost;
+					p[edges[j].v] = j;
+					change = true;
 				}
 			}
+			if(!change) break;
 		}
 	}
 
@@ -79,7 +72,7 @@ public:
 				cr = par(cr,p[cr]);
 			}
 		}
-		// if(flow < k) return -1;
+		if(flow < k) return -1;
 		return cost;
 	}
 };
