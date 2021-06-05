@@ -23,6 +23,7 @@ struct suff_array{
 	}
 	
 	void build(const string &_s, char &_c){//will be used when want to declare it globally
+		s = _s;
 		s += _c;
 		n = s.size();
 		p = c = lcp = logs= le = ri= NULL;

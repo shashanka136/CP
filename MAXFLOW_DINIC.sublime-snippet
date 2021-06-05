@@ -21,6 +21,7 @@ struct dinic{
 	void init(int _n){
 		n = _n;
 		adj.assign(n, vector<int>(0));
+		edges.clear();
 	}
 
 	void add(int u, int v, long long cap){

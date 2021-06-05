@@ -1,6 +1,6 @@
 {
 	"shell_cmd": 
-		"g++-10 -DTRACE -std=c++17 \"${file}\" -o binary.out && ulimit -s 65520 && ulimit -v 2097152 && time ./binary.out</Users/shashankagrawal/Desktop/CP/inout/in.txt>/Users/shashankagrawal/Desktop/CP/inout/out.txt && rm binary.out",
+		"g++-11 -DTRACE -std=c++17 \"${file}\" -o binary.out && ulimit -s 65520 && ulimit -v 2097152 && time ./binary.out</Users/shashankagrawal/Desktop/CP/inout/in.txt>/Users/shashankagrawal/Desktop/CP/inout/out.txt && rm binary.out",
 	"file_regex": "^(..[^:]):([0-9]+):?([0-9]+)?:? (.)$",
 	"working_dir": "${file_path}", 
 	"selector": "source.c, source.c++, source.cpp",
@@ -9,12 +9,12 @@
 		{
 			"name" : "run",
 			"shell_cmd": 
-			"g++-10 -DTRACE -std=c++17 \"${file}\" -o binary.out && ulimit -s 65520 && ulimit -v 2097152 && time ./binary.out</Users/shashankagrawal/Desktop/CP/inout/in.txt>/Users/shashankagrawal/Desktop/CP/inout/out.txt && rm binary.out"
+			"g++-11 -DTRACE -std=c++17 \"${file}\" -o binary.out && ulimit -s 65520 && ulimit -v 2097152 && time ./binary.out</Users/shashankagrawal/Desktop/CP/inout/in.txt>/Users/shashankagrawal/Desktop/CP/inout/out.txt && rm binary.out"
 		},
 		{
 			"name" : "file_io",
 			"shell_cmd": 
-			"g++-10 -DLOCAl -std=c++17 \"${file}\" -o binary.out && ulimit -s 65520 && ulimit -v 2097152 && time ./binary.out  && rm binary.out"
+			"g++-11 -DLOCAl -std=c++17 \"${file}\" -o binary.out && ulimit -s 65520 && ulimit -v 2097152 && time ./binary.out  && rm binary.out"
 		}
 	]
 }
