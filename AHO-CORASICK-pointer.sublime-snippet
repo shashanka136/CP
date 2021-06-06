@@ -2,13 +2,16 @@
 	<content><![CDATA[
 const int K = 26;//alphabet size
 struct node {
-	node* ch[K];
+	node* nx[K], go[K];
 	node* p;
 	node* sl;
-	bool leaf = false;
+	node* nt;
 	char pch; //suffix_link
 	node(node* p = NULL, char c = ''): p(p), pch(c) {
-		sl = NULL; ch[0] = NULL; ch[1] = NULL;
+		sl = NULL;
+		nt = NULL;
+		fill(begin(nx), end(nx), NULL);
+		fill(begin(go), end(go), NULL);
 	}
 };
 
@@ -26,22 +29,23 @@ struct ahoc {
 		node* cr = root;
 		for (char c : s) {
 			int z = getin(c);
-			if (!cr->ch[z]) {
-				cr->ch[z] = new node(cr, c);
+			if (!cr->nx[z]) {
+				cr->nx[z] = new node(cr, c);
 			}
-			cr = cr->ch[z];
+			cr = cr->nx[z];
 		}
-		cr->leaf = true;
+		cr->nt = cr;
 	}
 
-	node* get_sl(node* cr) {
-		if (!cr->sl) {
-			if (cr == root || cr->p == root)
-				cr->sl = root;
-			else
-				cr->sl = go(get_sl(cr->p), cr->pch);
+	node* get_sl(node* v) {
+		if(v->sl != NULL) return v->sl;
+		if (v == root || v->p == root) return v->sl = root;
+		node* pv = get_sl(v->p);
+		int z = getin(v->pch);
+		while(pv != root && pv->nx[z] == NULL){
+			pv = get_sl(pv);
 		}
-		return cr->sl;
+		return v->sl = (pv->nx[z] == NULL? root: pv->nx[z]);
 	}
 
 	node* go(node* cr, char c) {
@@ -60,10 +64,8 @@ struct ahoc {
 			node* tmp = get_sl(cr);
 			if (tmp == root) {
 				cr->nt = root;
-			} else if (!tmp->leaf) {
-				cr->nt = get_nt(tmp);
 			} else {
-				cr->nt = tmp;
+				cr->nt = get_nt(tmp);
 			}
 		}
 		return cr->nt;

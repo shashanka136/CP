@@ -3,7 +3,7 @@
 const int K = 26;//alphabet size
 struct item {
 	int nx[K];
-	bool leaf = false;
+	int nt = -1;
 	int p = -1; char pch; int sl = -1; //suffix_link
 	int go[K];
 	item(int p = -1, char c = ''): p(p), pch(c) {
@@ -32,17 +32,18 @@ struct ahoc {
 			}
 			v = t[v].nx[z];
 		}
-		t[v].leaf = true;
+		t[v].nt = nt;
 	}
 
 	int get_sl(int v) {
-		if (t[v].sl == -1) {
-			if (v == 0 || t[v].p == 0)
-				t[v].sl = 0;
-			else
-				t[v].sl = go(get_sl(t[v].p), t[v].pch);
+		if(t[v].sl != -1) return t[v].sl;
+		if (v == 0 || t[v].p == 0) return t[v].sl = 0;
+		int pv = get_sl(t[v].p);
+		int z = getin(t[v].pch);
+		while(pv != 0 && t[pv].nx[z] == -1){
+			pv = get_sl(pv);
 		}
-		return t[v].sl;
+		return t[v].sl = (t[pv].nx[z] == -1? 0: t[pv].nx[z]);
 	}
 
 	int go(int v, char c) {
@@ -56,6 +57,17 @@ struct ahoc {
 				t[v].go[z] = go(get_sl(v), c);
 		}
 		return t[v].go[z];
+	}
+	int get_nt(int v) {//next terminal
+		if (t[v].nt == -1) {
+			int tmp = get_sl(v);
+			if (tmp == 0) {
+				t[v].nt = 0;
+			} else {
+				t[v].nt = get_nt(tmp);
+			}
+		}
+		return t[v].nt;
 	}
 };
 //put dollar
