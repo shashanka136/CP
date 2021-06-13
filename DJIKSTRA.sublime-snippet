@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+template <typename T>
+void djikstra(int i, vector<T> &d, vector<int> &p){
+	d.assign(n,inf);
+	p.assign(n,-1);
+	set<pair<T,int>> q;
+	d[i] = 0;
+	q.insert(MP(0,i));
+	while(!q.empty()){
+		int v = q.begin()->second;
+		q.erase(q.begin());
+		for(int x : adj[v]){
+			int u = edges[x].get(v);
+			if(d[v] + edges[x].w < d[u]){
+				q.erase(MP(d[u],u));
+				d[u] = d[v] + edges[x].w;
+				p[u] = v;
+				q.insert(MP(d[u],u));
+			}
+		}
+	}
+}//inf needs to be defined, edges too having attribute w
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_djikstra--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

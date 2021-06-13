@@ -1,0 +1,72 @@
+<snippet>
+	<content><![CDATA[
+struct cuts{
+	int n,m; // number of nodes
+	vector<int> *tree; // adjacency list of graph
+	vector<int> *adj;
+	bool* vis, *iscut;
+	int* tin,*low,*us,*vs;
+	int cmpno;
+	int timer;
+	queue<int> *q;
+	cuts(){}
+	cuts(int _n, int _m): n(_n), m(_m){
+		cmpno = 0;
+		tree = new vector<int>[n+1];
+		adj = new vector<int>[n+1];
+		vis = new bool[n+1];
+		iscut = new bool[n];
+		tin = new int[n+1];
+		low = new int[n+1];
+		us = new int[m+1];
+		vs = new int[m+1];
+		q = new queue<int>[n+1];
+	}
+
+	int nxt(int u,int e){
+	    return us[e]==u? vs[e]:us[e];
+	}
+
+	void get_edges(){
+		for(int i = 0; i<m; i++){
+			cin>>us[i]>>vs[i];
+			us[i]--;vs[i]--;
+			adj[us[i]].push_back(i);
+			adj[vs[i]].push_back(i);
+		}
+	}
+
+	void dfs(int i, int p = -1) {
+		vis[i] = true;
+		tin[i] = low[i] = timer++;
+		int child = 0;
+		for (int x : adj[i]) {
+			int nx = nxt(i,x);
+			if (nx == p) continue;
+			if (vis[nx]) {
+				low[i] = min(low[i], tin[nx]);
+			} else {
+				dfs(nx, i);
+				low[i] = min(low[i], low[nx]);
+				++child
+				if (low[nx] >= tin[i] && p != -1)
+					iscut[i] = true;//i is articulation point
+			}
+		}
+	}
+
+	void find_cuts(){
+		fill(vis,vis+n+1,false);
+		for(int i = 0; i < n; i++){
+			if(!vis[i])
+				dfs(i);
+		}
+	}
+
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_articulation_cuts--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
