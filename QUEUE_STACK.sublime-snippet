@@ -1,0 +1,35 @@
+<snippet>
+	<content><![CDATA[
+template<typename T, class stk>
+struct quest{
+	stk<T> st1, st2;// <-- st1|st2 <--
+	quest(){}
+
+	inline void trans(){
+		if(st1.empty()){
+			while(!st2.empty()){
+				st1.push(st2.top());
+				st2.pop();
+			}
+		}
+	}
+	void push(T x){
+		st2.push(x);
+	}
+
+	T pop(){
+		trans();
+		st1.pop();
+	}
+
+	T front(){
+		trans();
+		return st1.top(); 
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_queue-stack--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

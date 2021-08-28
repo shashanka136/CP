@@ -1,0 +1,100 @@
+<snippet>
+	<content><![CDATA[
+struct euler_path{
+	struct edge {
+		int u, v, num;
+		edge(){}
+		edge(int _u, int _v): u(_u), v(_v), num(-1) {}
+		int get(int t) { return t ^ u ^ v;}
+	};
+	int n,m;
+	vector<pair<int,int>> fin;
+	vector<int> deg;
+	vector<edge> edges;
+	vector<vector<int>> adj;
+
+	void init(int _n){
+		n = _n;
+		m = 0;
+		adj.assign(n,vector<int>(0));
+		deg.assign(n,0);
+	}
+
+	void add_edge(int u, int v){
+		deg[u]++,deg[v]++;
+		adj[u].PB(edges.size());
+		adj[v].PB(edges.size());
+		edges.emplace_back(u,v);
+		m++;
+	}
+
+	bool find_eulerian_path(){
+		int fst = 0;
+		for(;fst <n && deg[fst] == 0; fst++);
+		if(fst == n) return true;
+		int x = -1,y = -1;
+		for(int i =0; i<n; i++){
+			if(deg[i] &1){
+				if(x == -1){
+					x = i;
+				}else if(y == -1){
+					y = i;
+				}else{
+					return false;
+				}
+			}
+		}
+		if(x != -1){
+			add_edge(x,y);
+			deg[x]++,deg[y]++;
+		}
+		stack<pair<int,int>> st;
+		st.push(make_pair(fst,-1));
+		vector<int> cr(n,0);
+		vector<pair<int,int>> fn;
+		while(!st.empty()){	
+			int v = st.top().first;
+			int edge_num = st.top().second;
+			int &i = cr[v];
+			for(; i<deg[v] && edges[adj[v][i]].num != -1; i++);
+			if(i == deg[v]){
+				fn.push_back(st.top());
+				st.pop();
+			}else{
+				st.push(make_pair(edges[adj[v][i]].get(v), adj[v][i]));
+				edges[adj[v][i]].num = 0;
+				i++;
+			}
+		}
+		if( x != -1){
+			for(int i =0; i+1<fn.size(); i++){
+				if((fn[i].first == x && fn[i+1].first == y)  ||
+					(fn[i].first == y && fn[i+1].first == x)){
+					vector<pair<int,int>> fn2;
+					fn2.insert(fn2.end(), fn.begin()+i+1, fn.end() -1);
+					fn2.insert(fn2.end(), fn.begin(), fn.begin() + i+1);
+					fn.swap(fn2);
+					break;
+				}
+			}
+			m--;
+			edges.pop_back();
+			fn.back().second = -1;
+		}
+		for(int i =0; i<n; i++){
+			if(cr[i] != deg[i]) return false;
+		}
+		fin.swap(fn);
+		for(int i =0; i<m; i++){
+			edges[fin[i].second].num = i;
+		}
+		return true;
+	}
+
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_eulerian_path--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

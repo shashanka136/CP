@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+vector<int> zarray(string &s){
+	int n = s.size();
+	vector<int> z(n);
+	int l,r=-1;
+	z[0] = -1;
+	for(int i = 1; i<n; i++){
+		if(r >= i){
+			if(z[i-l] < r-i+1) z[i] = z[i-l];
+			else{
+				l = i;
+				while(r<n && s[r] == s[r-l]) r++;
+				z[i] = r-l;
+				r--;
+			}
+		}else{
+			l = i,r = i;
+			while(r<n && s[r] == s[r-l]) r++;
+			z[i] = r-l;
+			r--;
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_zarray--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

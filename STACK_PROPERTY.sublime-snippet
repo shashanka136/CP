@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+template<typename T>
+struct stk {
+	stack<T> st, stmax, stmin;
+	stk(){
+		stmax.push(LLONG_MIN);
+		stmin.push(LLONG_MAX);
+	}
+	void push(T x){
+		st.push(x);
+		stmax.push(max(stmax.top(), x));
+		stmin.push(min(stmin.top(), x));
+	}
+	T pop(){
+		T x = st.top();
+		st.pop();
+		stmax.pop();
+		stmin.pop();
+		return x;
+	}
+	inline bool empty(){
+		return st.empty();
+	}
+	inline T mx(){
+		return stmax.top();
+	}
+	inline T mn(){
+		return stmin.top();
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_stack-property--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

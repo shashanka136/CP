@@ -20,7 +20,10 @@ struct seive{
 		v.clear();
 		while(x > 1){
 			v.PB(a[x]);
-			x /= a[x];
+			int cr = a[x];
+			while(a[x] == cr){
+				x /= a[x];
+			}
 		}
 		return;
 	}
