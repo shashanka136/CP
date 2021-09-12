@@ -49,7 +49,7 @@ const int N = 8e5+5;
 int n,u,v,c,p[N],siz[N];
 edge edges[N];
 vi adj[N];
-int dp1[N][22], dp2[N];
+int dp1[N][22], dp2[N][22];
 
 int fin(int i){
 	if(p[i] != i){
@@ -75,66 +75,32 @@ void solve(){
 		edges[i-1] = {u,v,c};
 	}
 	function<void(int,int)> dfs1 = [&](int i, int p){
-		fill(dp1[i], dp1[i]+21,0);
-		dp1[i][21] = 1;
+		fill(dp1[i], dp1[i]+22,1);
 		for(int j : adj[i]){
 			int x = edges[j].get(i);
 			if(x == p) continue;
 			dfs1(x,i);
-			for(int c =1; c<=21; c++){
-				dp1[i][min(c,edges[j].c)] += dp1[x][c];
+			for(int c =1; c<=edges[j].c; c++){
+				dp1[i][c] += dp1[x][c];
 			}
 		}
 	};
-	function<void(int,int,vector<int>)> dfs2 = [&](int i, int p, vi up){
-		vector<vector<int>> pre(sz(adj[i])+1, vector<int>(22,0)); 
-		vector<vector<int>> suff(sz(adj[i])+1, vector<int>(22,0));
-		for(int j =0; j<sz(adj[i]); j++){
-			for(int c =1; c<=21; c++){
-				pre[j+1][c] = pre[j][c];
-			}
-			int x = edges[adj[i][j]].get(i);
-			if(x == p) continue;
-			for(int c = 1; c<=21; c++){
-				pre[j+1][min(c,edges[adj[i][j]].c)] += dp1[x][c];
-			}
-		}
-		for(int j =sz(adj[i])-1; j>=0; j--){
-			for(int c =1; c<=21; c++){
-				suff[j][c] = suff[j+1][c];
-			}
-			int x = edges[adj[i][j]].get(i);
-			if(x == p) continue;
-			for(int c = 1; c<=21; c++){
-				suff[j][min(c,edges[adj[i][j]].c)] += dp1[x][c];
-			}
-		}
-		for(int k =0; k<sz(adj[i]); k++){
-			int j = adj[i][k];
+	function<void(int,int)> dfs2 = [&](int i, int p){
+		for(int j : adj[i]){
 			int x = edges[j].get(i);
 			if(x == p) continue;
-			vi v(22,0);
-			dp2[j] = 0;
-			// trace(i,k,j,x);
-			for(int c =1; c<=21; c++){
-				int z = pre[k][c]+up[c] + suff[k+1][c];
-				// trace(i,x,c,z);
-				v[min(c,edges[j].c)] += z;
-				for(int c2 =1; c2 <=21; c2++){
-					dp2[j] = (dp2[j] + 1ll*z*dp1[x][c2]%mod*min({c,c2,edges[j].c})%mod)%mod;
-				}
+			fill(dp2[x], dp2[x]+22,0);
+			for(int c =1; c<=edges[j].c; c++){
+				dp2[x][c] += dp2[i][c] +dp1[i][c] - dp1[x][c];
 			}
-			for(int c2 =1; c2 <=21; c2++){
-				dp2[j] = (dp2[j] + 1ll*dp1[x][c2]*min({c2,edges[j].c})%mod)%mod;
-			}
-			v[edges[j].c] +=1;
-			dfs2(x,i,v);
+			dfs2(x,i);
 		}
 	};
 	dfs1(0,-1);
 	// for(int j =0; j<n; j++)
 	// trace(j,MP(dp1[j],22));
-	dfs2(0,-1,vi(22,0));
+	fill(dp2[0], dp2[0]+21,0);
+	dfs2(0,-1);
 	int tot =0;
 	sort(edges,edges+n-1);
 	iota(p,p+n,0);
@@ -144,11 +110,17 @@ void solve(){
 		tot = (tot + 1ll*siz[u]*siz[v]%mod*edges[i].c%mod)%mod;
 		un(u,v);
 	}
-	// trace(tot);
 	int ans = 1;
-	for(int i =0; i<n-1; i++){
-		// trace(tot,dp2[i]);
-		ans = 1ll*ans*(tot-dp2[i]+mod)%mod;
+	for(int i =1; i<n; i++){
+		int zi = 0;
+		int p,pprev;
+		pprev = 0, p = 1ll*dp1[i][20]*dp2[i][20]%mod;
+		for(int c = 20; c>0; c--){
+			p = 1ll*dp1[i][c]*dp2[i][c]%mod;
+			zi = (zi + 1ll*c*(p -pprev+mod)%mod)%mod;
+			pprev = p;
+		}
+		ans = 1ll*ans*(tot-zi+mod)%mod;
 	}
 	cout<<ans<<endl;
 	for(int i =0; i<n; i++) adj[i] = vi(0);
