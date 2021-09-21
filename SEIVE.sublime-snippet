@@ -5,12 +5,13 @@ struct seive{
 	int n;
 	seive(int m): n(m+1){
 		a = new int[n];
+		int z = sqrt(n);
 		iota(a,a+n,0);
 		a[0] = 0;//although not defined for 0
 		a[1] = 1;
-		for(int i=2;i<n;i++){
+		for(int i=2;i<=z;i++){
 			if(a[i]!=i) continue;
-			for(int j=2*i;j <n;j+=i){
+			for(int j=i*i;j <n;j+=i){
 				if(a[j] != j) continue;
 				a[j] = i;
 			}
