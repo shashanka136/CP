@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-/* AUTHOR - SHASHANK AGRAWAL (codeforces - @shashanka136) ( codechef - @shashank_vasu) */
+/* AUTHOR - SHASHANK AGRAWAL (codeforces - @shashankagrawal) ( codechef - @shashank_vasu) */
 #include <bits/stdc++.h>
 #ifdef STAC
 #include <sys/resource.h>
