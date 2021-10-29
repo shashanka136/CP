@@ -1,0 +1,44 @@
+<snippet>
+	<content><![CDATA[
+//https://codeforces.com/blog/entry/44351
+int siz[N];
+bool big[N];
+void getsz(int i, int p){
+	siz[i] = 1;  // every vertex has itself in its subtree
+	for(auto u : adj[i])
+		if(u != p){
+			getsz(u, i);
+			siz[i] += siz[u]; // add size of child u to its parent(v)
+		}
+}
+
+void add(int i, int p, int x){
+	//update whatever we want to
+	for(auto u: adj[i])
+		if(u != p && !big[u])
+			add(u, i, x);
+}
+
+void dfs(int i, int p, bool keep){
+	int mx = -1, bigchild = -1;
+	for(auto u : adj[i])
+		if(u != p && siz[u] > mx)
+			mx = siz[u], bigchild = u;
+	for(auto u : adj[i])
+		if(u != p && u != bigchild)
+			dfs(u,i,0);	//run a dfs on small childs and clear them
+	if(bigchild != -1)
+		dfs(bigchild,i,1), big[bigchild] = true; //bigchild marked as big and not cleared
+	add(i,p,1);
+	//now we have our quantity for the vertices in subtree of i
+	if(bigchild != -1)
+		big[bigchild] = 0;
+	if(!keep)
+		add(i,p,-1);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>_dsuontrees--</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

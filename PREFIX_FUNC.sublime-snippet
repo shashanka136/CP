@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-void prefix_func(string &s, vi & v){
+void prefix_func(string &s, vector<int> & v){
 	int n = s.size();
 	v.assign(n,0);
 	for(int i =1; i<n; i++){

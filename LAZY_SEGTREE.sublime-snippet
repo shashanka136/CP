@@ -24,7 +24,7 @@ struct item {
     }
     item operator*(const item_lazy& oth) { //operation to merge
         item r;
-        r.n = r.n + oth.n;//must be a associative function
+        r.n = n + oth.n;//must be a associative function
         return r;
     }
 };

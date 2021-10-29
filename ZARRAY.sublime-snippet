@@ -1,25 +1,17 @@
 <snippet>
 	<content><![CDATA[
-vector<int> zarray(string &s){
+void zarray(string &s, vector<int> &v){
 	int n = s.size();
-	vector<int> z(n);
-	int l,r=-1;
-	z[0] = -1;
+	v.assign(n,0);
+	int l=0,r=0;
+	v[0] = -1;
 	for(int i = 1; i<n; i++){
-		if(r >= i){
-			if(z[i-l] < r-i+1) z[i] = z[i-l];
-			else{
-				l = i;
-				while(r<n && s[r] == s[r-l]) r++;
-				z[i] = r-l;
-				r--;
-			}
-		}else{
-			l = i,r = i;
-			while(r<n && s[r] == s[r-l]) r++;
-			z[i] = r-l;
-			r--;
-		}
+		if (i <= r)
+			v[i] = min (r - i + 1, v[i - l]);
+		while (i + v[i] < n && s[v[i]] == s[i + v[i]])
+			++v[i];
+		if (i + v[i] - 1 > r)
+			l = i, r = i + v[i] - 1;
 	}
 }
 ]]></content>
